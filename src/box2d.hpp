@@ -96,7 +96,11 @@ public:
   // Деление на число.
   Box2d operator / (float scale) const
   {
-    //TODO: обработать деление на 0.
+    if (EqualWithEps(scale, 0))
+      {
+        std::cout<<"division by zero is not defined\n";
+        return *this;
+      }
     return {p_l_b, p_r_t / scale };;
   }
 
