@@ -97,10 +97,10 @@ public:
   Point2D operator / (float scale) const
   {
     if (EqualWithEps(scale, 0))
-      {
-        std::cout << "division by zero is not defined\n";
-        return *this;
-      }
+    {
+      std::cout << "division by zero is not defined\n";
+      return *this;
+    }
     return { m_x / scale, m_y / scale };
   }
 

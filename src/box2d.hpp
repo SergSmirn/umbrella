@@ -6,25 +6,15 @@ public:
   Box2D() = default;
 
   Box2D(Box2D const & obj)
-    :m_plb(obj.m_plb), m_prt(obj.m_prt)
+    : m_plb(obj.m_plb), m_prt(obj.m_prt)
   {}
 
-  Box2D(Point2D leftp, Point2D rightp)
+  Box2D(Point2D const & leftp, Point2D const & rightp)
   {
-    if (leftp.x() > rightp.x())
-    {
-      float swap = rightp.x();
-      rightp.x() = leftp.x();
-      leftp.x() = swap;
-    }
-    if (leftp.y() > rightp.y())
-    {
-      float swap = rightp.y();
-      rightp.y() = leftp.y();
-      leftp.y() = swap;
-    }
-    m_plb = leftp;
-    m_prt = rightp;
+    m_plb.x() = std::min(leftp.x(), rightp.x());
+    m_plb.y() = std::min(leftp.y(), rightp.y());
+    m_prt.x() = std::max(leftp.x(), rightp.x());
+    m_prt.y() = std::max(leftp.y(), rightp.y());
   }
 
   Box2D(std::initializer_list<Point2D> const & lst)
@@ -34,23 +24,14 @@ public:
     auto it = lst.begin();
     for (int i = 0; i < count && it != lst.end(); i++, ++it)
     {
-      if (i % 2 == 0) *vals[i] = *it;
-      if (i % 2 == 1)
+      if (i == 0) *vals[i] = *it;
+      if (i == 1)
       {
         *vals[i] = *it;
         if (vals[i-1]->x() > vals[i]->x())
-        {
-          float swap = vals[i-1]->x();
-          vals[i-1]->x() = it->x();
-          vals[i]->x() = swap;
-        }
+        std::swap( vals[i-1]->x(), vals[i]->x());
         if (vals[i-1]->y() > vals[i]->y())
-        {
-          float swap = vals[i-1]->y();
-          vals[i-1]->y() = it->y();
-          vals[i]->y() = swap;
-        }
-
+        std::swap( vals[i-1]->y(), vals[i]->y());
       }
     }
   }
@@ -62,7 +43,7 @@ public:
              || (m_prt.x() < obj.m_plb.x()) || (m_prt.y() < obj.m_plb.y()));
   }
 
-  float area() const
+  float Area() const
   {
       return (m_prt.x() - m_plb.x()) * (m_prt.y() - m_plb.y());
   }
@@ -91,7 +72,7 @@ public:
   // Оператор меньше.
   bool operator < (Box2D const & obj) const
   {
-    return area() < obj.area();
+    return Area() < obj.Area();
 
   }
 
@@ -123,10 +104,10 @@ public:
   Box2D operator / (float scale) const
   {
     if (EqualWithEps(scale, 0))
-      {
-        std::cout << "division by zero is not defined\n";
-        return *this;
-      }
+    {
+      std::cout << "division by zero is not defined\n";
+      return *this;
+    }
     return { m_plb, m_prt / scale };;
   }
 
@@ -194,7 +175,7 @@ private:
     return fabs(v1 - v2) < kEps;
   }
 
-  Point2D m_plb{0.0f,0.0f},m_prt{0.0f,0.0f};
+  Point2D m_plb { 0.0f, 0.0f }, m_prt { 0.0f, 0.0f };
 
 };
 

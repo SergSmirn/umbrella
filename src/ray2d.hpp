@@ -10,7 +10,7 @@ public:
   Ray2D() = default;
 
   Ray2D(Ray2D const & obj)
-    :m_origin(obj.m_origin), m_direction(obj.m_direction)
+    : m_origin(obj.m_origin), m_direction(obj.m_direction)
   {}
 
   Ray2D(std::initializer_list<Point2D> const & lst)
@@ -20,16 +20,22 @@ public:
     auto it = lst.begin();
     for (int i = 0; i < count && it != lst.end(); i++, ++it)
     {
-      if (i % 2 == 0) *vals[i] = *it;
-      if (i % 2 == 1) *vals[i] = *vals[i - 1] + (*it - *vals[i - 1]) / hypot( (vals[i-1]->x() - it->x()), (vals[i-1]->y() - it->y()) ) ;
+      if (i == 0) *vals[i] = *it;
+      if (i == 1)
+      {
+        *vals[i] = *it;
+        *vals[i] = Rationing(*vals[0], *vals [1]);
+      }
     }
   }
 
-  Ray2D(Point2D orig, Point2D dir)
+  Ray2D(Point2D const & orig, Point2D const & dir)
   {
-    m_origin = orig;
-    m_direction = orig + (dir - orig) / hypot( (orig.x() - dir.x()), (orig.x() - dir.y()));
+      m_origin = orig;
+      m_direction = Rationing(orig, dir);
   }
+
+
 
   //Принадлежность точки четверти  в которой лежит луч
   bool Region (Point2D const & point)
@@ -39,17 +45,19 @@ public:
   }
 
   //Проверка пересечения с прям-ом
-  bool 	Crossing (Box2D const & obj)
+  bool Crossing (Box2D const & obj)
   {
-    float factorA=m_origin.y()-m_direction.y();
-    float factorB=m_direction.x()- m_direction.x();
-    float factorC=m_origin.x()*m_direction.y()-m_direction.x()*m_origin.y();
-
-    return ((obj.LeftBot().y() <= (-factorA * obj.LeftBot().x() - factorC) / factorB && obj.RightTop().y() >= (-factorA * obj.LeftBot().x() - factorC) / factorB
-           || obj.LeftBot().y() <= (-factorA * obj.RightTop().x() - factorC)/factorB && obj.RightTop().y() >= (-factorA * obj.RightTop().x() - factorC) / factorB)
-           || (obj.LeftBot().x() <= (-factorB * obj.LeftBot().y() - factorC) / factorA && obj.RightTop().x() >= (-factorB * obj.LeftBot().y()-factorC) / factorA
-           || obj.LeftBot().x() <= (-factorB * obj.RightTop().y()-factorC) / factorA && obj.RightTop().x() >= (-factorB * obj.RightTop().y()-factorC) / factorA))
-           && (Region(obj.LeftBot()) || Region(obj.RightTop()));
+    float factorA = m_origin.y()-m_direction.y();
+    float factorB = m_direction.x()- m_direction.x();
+    float factorC = m_origin.x()*m_direction.y()-m_direction.x()*m_origin.y();
+    if (Region(obj.LeftBot()) || Region(obj.RightTop()))
+    {
+      if (obj.LeftBot().y() <= (-factorA * obj.LeftBot().x() - factorC) / factorB && obj.RightTop().y() >= (-factorA * obj.LeftBot().x() - factorC) / factorB) return true;
+      if (obj.LeftBot().y() <= (-factorA * obj.RightTop().x() - factorC) / factorB && obj.RightTop().y() >= (-factorA * obj.RightTop().x() - factorC) / factorB) return true;
+      if (obj.LeftBot().x() <= (-factorB * obj.LeftBot().y() - factorC) / factorA && obj.RightTop().x() >= (-factorB * obj.LeftBot().y()-factorC) / factorA) return true;
+      if (obj.LeftBot().x() <= (-factorB * obj.RightTop().y()-factorC) / factorA && obj.RightTop().x() >= (-factorB * obj.RightTop().y()-factorC) / factorA) return true;
+    }
+      return false;
   }
 
   Point2D const & OriginN () const { return m_origin;}
@@ -84,6 +92,11 @@ public:
   }
 
 private:
+
+  Point2D Rationing ( Point2D const & orig, Point2D const & dir)
+  {
+    return orig + (dir - orig) / hypot( (orig.x() - dir.x()), (orig.x() - dir.y()));
+  }
 
   bool EqualWithEps(float v1, float v2) const
   {
