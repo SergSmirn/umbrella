@@ -5,13 +5,27 @@ class Box2D
 public:
   Box2D() = default;
 
-  Box2D(Box2D const & obj):
-  m_plb(obj.m_plb), m_prt(obj.m_prt)
+  Box2D(Box2D const & obj)
+    :m_plb(obj.m_plb), m_prt(obj.m_prt)
   {}
 
   Box2D(Point2D leftp, Point2D rightp)
-  :m_plb(leftp), m_prt(rightp)
-  {}
+  {
+    if (leftp.x() > rightp.x())
+    {
+      float swap = rightp.x();
+      rightp.x() = leftp.x();
+      leftp.x() = swap;
+    }
+    if (leftp.y() > rightp.y())
+    {
+      float swap = rightp.y();
+      rightp.y() = leftp.y();
+      leftp.y() = swap;
+    }
+    m_plb = leftp;
+    m_prt = rightp;
+  }
 
   Box2D(std::initializer_list<Point2D> const & lst)
   {
@@ -19,30 +33,44 @@ public:
     int const count = sizeof(vals) / sizeof(vals[0]);
     auto it = lst.begin();
     for (int i = 0; i < count && it != lst.end(); i++, ++it)
-      *vals[i] = *it;
+    {
+      if (i % 2 == 0) *vals[i] = *it;
+      if (i % 2 == 1)
+      {
+        *vals[i] = *it;
+        if (vals[i-1]->x() > vals[i]->x())
+        {
+          float swap = vals[i-1]->x();
+          vals[i-1]->x() = it->x();
+          vals[i]->x() = swap;
+        }
+        if (vals[i-1]->y() > vals[i]->y())
+        {
+          float swap = vals[i-1]->y();
+          vals[i-1]->y() = it->y();
+          vals[i]->y() = swap;
+        }
+
+      }
+    }
   }
 
   // Проверка пересечения с другим прямоугльником
   bool Intersection (Box2D const & obj)
   {
-
-      return ((m_plb.x()<=obj.m_plb.x() && obj.m_plb.x()<=m_prt.x())
-              || (obj.m_plb.x()<=m_plb.x() && m_plb.x()<=obj.m_prt.x()))
-              &&((m_plb.y()<=obj.m_plb.y() && obj.m_plb.y()<=m_prt.y())
-              || (obj.m_plb.y()<=m_plb.y() && m_plb.y()<=obj.m_prt.y()));
-
+      return !((m_plb.x() > obj.m_prt.x()) || (m_plb.y() > obj.m_prt.y())
+             || (m_prt.x() < obj.m_plb.x()) || (m_prt.y() < obj.m_plb.y()));
   }
-
 
   float area() const
   {
-      return (m_prt.x()-m_plb.x())*(m_prt.y()-m_plb.y());
+      return (m_prt.x() - m_plb.x()) * (m_prt.y() - m_plb.y());
   }
 
   // Оператор логического равенства.
   bool operator == (Box2D const & obj) const
   {
-    return m_plb==obj.m_plb && m_prt==obj.m_prt;
+    return m_plb == obj.m_plb && m_prt == obj.m_prt;
   }
 
   // Оператор присваивания.
@@ -57,14 +85,13 @@ public:
   // Оператор логического неравенства.
   bool operator != (Box2D const & obj) const
   {
-    return !operator==(obj);
+    return !operator == (obj);
   }
 
   // Оператор меньше.
   bool operator < (Box2D const & obj) const
   {
-    if (area() < obj.area()) return 1;
-    return 0;
+    return area() < obj.area();
 
   }
 
@@ -80,7 +107,6 @@ public:
     return { m_plb - obj.m_plb, m_prt - obj.m_prt };
   }
 
-
   // Математическое отрицание.
   Box2D operator - () const
   {
@@ -90,7 +116,7 @@ public:
   // Умножение на число.
   Box2D operator * (float scale) const
   {
-    return {m_plb, m_prt * scale };
+    return { m_plb, m_prt * scale };
   }
 
   // Деление на число.
@@ -98,10 +124,10 @@ public:
   {
     if (EqualWithEps(scale, 0))
       {
-        std::cout<<"division by zero is not defined\n";
+        std::cout << "division by zero is not defined\n";
         return *this;
       }
-    return {m_plb, m_prt / scale };;
+    return { m_plb, m_prt / scale };;
   }
 
   Box2D & operator += (Box2D const & obj)
@@ -126,13 +152,13 @@ public:
 
   Box2D & operator /= (float scale)
   {
-      if (EqualWithEps(scale, 0))
-      {
-        std::cout<<"division by zero is not defined\n";
-        return *this;
-      }
-      m_prt /=scale;
+    if (EqualWithEps(scale, 0))
+    {
+      std::cout << "division by zero is not defined\n";
       return *this;
+    }
+    m_prt /=scale;
+    return *this;
   }
 
   Box2D MoveX (float x)
@@ -153,18 +179,13 @@ public:
 
   Box2D Move (Point2D distance)
   {
-
     m_plb+=distance;
     m_prt+=distance;
     return *this;
   }
 
-  Point2D & LeftBot() { return m_plb;}
-  Point2D & RightTop() { return m_prt;}
-
   Point2D const & LeftBot() const { return m_plb;}
   Point2D const & RightTop() const { return m_prt;}
-
 
 private:
 

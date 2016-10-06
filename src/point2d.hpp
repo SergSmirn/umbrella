@@ -98,7 +98,7 @@ public:
   {
     if (EqualWithEps(scale, 0))
       {
-        std::cout<<"division by zero is not defined\n";
+        std::cout << "division by zero is not defined\n";
         return *this;
       }
     return { m_x / scale, m_y / scale };
@@ -129,7 +129,7 @@ public:
   {
     if (EqualWithEps(scale, 0))
       {
-        std::cout<<"division by zero is not defined\n";
+        std::cout << "division by zero is not defined\n";
         return *this;
       }
     m_x /= scale;

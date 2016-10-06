@@ -13,7 +13,6 @@ int main()
   bool eq, eq2;
   eq=b1.Intersection(b2);
   eq2=r1.Crossing(b1);
-  cout<<eq2<<endl;
+  cout << eq << endl;
   return 0;
 }
-
