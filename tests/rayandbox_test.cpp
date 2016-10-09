@@ -38,8 +38,8 @@ TEST(rayandbox_test, test_box_initializer_list)
   EXPECT_EQ(p1.RightTop(), c3);
 
   Box2D p2 = { c2 };
-  EXPECT_EQ(p2.LeftBot(), c2);
-  EXPECT_EQ(p2.RightTop(), c0);
+  EXPECT_EQ(p2.LeftBot(), c0);
+  EXPECT_EQ(p2.RightTop(), c2);
 }
 
 TEST(rayandbox_test, test_box_assignment)
@@ -100,6 +100,21 @@ TEST(rayandbox_test, test_box_output)
   EXPECT_EQ(s.str(), "Box2D {(0, 0), (1, 1)}");
 }
 
+//Тесты на перемещение
+TEST(rayandbox_test, test_box_move_hw2)
+{
+  Box2D p1(c5, c6);
+  Box2D p2(std::move(p1));
+  EXPECT_EQ(p2, Box2D(c5, c6));
+}
+
+TEST(rayandbox_test, test_box_move_operator)
+{
+  Box2D p1(c5, c6);
+  Box2D p2 = std::move(p1);
+  EXPECT_EQ(p2, Box2D(c5, c6));
+}
+
 // Тесты для луча.
 TEST(rayandbox_test, test_ray_construction)
 {
@@ -131,9 +146,8 @@ TEST(rayandbox_test, test_ray_initializer_list)
 
 TEST(rayandbox_test, test_ray_assignment)
 {
-  Ray2D p1;
-  p1 = { c1, c2 };
-  EXPECT_EQ(p1, Ray2D(c1, c2));
+  Ray2D p1 = { c3, c5 };
+  EXPECT_EQ(p1, Ray2D(c3, c5));
 }
 
 TEST(rayandbox_test, test_ray_move)
@@ -157,4 +171,19 @@ TEST(rayandbox_test, test_ray_output)
   std::stringstream s;
   s << Ray2D(c0, c8);
   EXPECT_EQ(s.str(), "Ray2D {(0, 0), (1, 0)}");
+}
+
+//Тест на перемещение
+TEST(rayandbox_test, test_ray_move_hw2)
+{
+  Ray2D p1(c5, c6);
+  Ray2D p2(std::move(p1));
+  EXPECT_EQ(p2, Ray2D(c5, c6));
+}
+
+TEST(rayandbox_test, test_ray_move_operator)
+{
+  Ray2D p1(c5, c6);
+  Ray2D p2 = std::move(p1);
+  EXPECT_EQ(p2, Ray2D(c5, c6));
 }

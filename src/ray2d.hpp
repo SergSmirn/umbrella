@@ -13,6 +13,12 @@ public:
     : m_origin(obj.m_origin), m_direction(obj.m_direction)
   {}
 
+  Ray2D(Ray2D && obj)
+  {
+    std::swap(m_origin, obj.m_origin);
+    std::swap(m_direction, obj.m_direction);
+  }
+
   Ray2D(std::initializer_list<Point2D> const & lst)
   {
     Point2D * vals[] = { &m_origin, &m_direction };
@@ -20,19 +26,14 @@ public:
     auto it = lst.begin();
     for (int i = 0; i < count && it != lst.end(); i++, ++it)
     {
-      if (i == 0) *vals[i] = *it;
-      if (i == 1)
-      {
-        *vals[i] = *it;
-        *vals[i] = Rationing(*vals[0], *vals [1]);
-      }
+      *vals[i] = *it;
     }
+    Rationing(*vals[0], *vals[1]);
   }
 
   Ray2D(Point2D const & orig, Point2D const & dir)
   {
-      m_origin = orig;
-      m_direction = Rationing(orig, dir);
+     Rationing(orig, dir);
   }
 
 
@@ -68,6 +69,21 @@ public:
     return m_origin==obj.OriginN() && m_direction==obj.DirectionN();
   }
 
+  Ray2D & operator = (Ray2D const & obj)
+  {
+    if (this == &obj) return *this;
+    m_origin = obj.m_direction;
+    m_origin = obj.m_direction;
+    return *this;
+  }
+
+  Ray2D & operator = (Ray2D && obj)
+  {
+    std::swap(m_origin, obj.m_direction);
+    std::swap(m_origin, obj.m_direction);
+    return *this;
+  }
+
   Ray2D MoveX (float x)
   {
     Point2D distance(x,0);
@@ -93,9 +109,10 @@ public:
 
 private:
 
-  Point2D Rationing ( Point2D const & orig, Point2D const & dir)
+  void Rationing (Point2D  orig, Point2D  dir)
   {
-    return orig + (dir - orig) / hypot( (orig.x() - dir.x()), (orig.x() - dir.y()));
+    m_origin =orig;
+    m_direction = orig + (dir - orig) / hypot( (orig.x() - dir.x()), (orig.y() - dir.y()));
   }
 
   bool EqualWithEps(float v1, float v2) const

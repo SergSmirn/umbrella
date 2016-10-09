@@ -9,12 +9,15 @@ public:
     : m_plb(obj.m_plb), m_prt(obj.m_prt)
   {}
 
+  Box2D(Box2D && obj)
+  {
+    std::swap(m_plb, obj.m_plb);
+    std::swap(m_prt, obj.m_prt);
+  }
+
   Box2D(Point2D const & leftp, Point2D const & rightp)
   {
-    m_plb.x() = std::min(leftp.x(), rightp.x());
-    m_plb.y() = std::min(leftp.y(), rightp.y());
-    m_prt.x() = std::max(leftp.x(), rightp.x());
-    m_prt.y() = std::max(leftp.y(), rightp.y());
+    Order(leftp, rightp);
   }
 
   Box2D(std::initializer_list<Point2D> const & lst)
@@ -24,17 +27,12 @@ public:
     auto it = lst.begin();
     for (int i = 0; i < count && it != lst.end(); i++, ++it)
     {
-      if (i == 0) *vals[i] = *it;
-      if (i == 1)
-      {
-        *vals[i] = *it;
-        if (vals[i-1]->x() > vals[i]->x())
-        std::swap( vals[i-1]->x(), vals[i]->x());
-        if (vals[i-1]->y() > vals[i]->y())
-        std::swap( vals[i-1]->y(), vals[i]->y());
-      }
+      *vals[i] = *it;
     }
+    Order(*vals[0], *vals[1]);
   }
+
+
 
   // Проверка пересечения с другим прямоугльником
   bool Intersection (Box2D const & obj)
@@ -60,6 +58,13 @@ public:
     if (this == &obj) return *this;
     m_plb = obj.m_plb;
     m_prt = obj.m_prt;
+    return *this;
+  }
+
+  Box2D & operator = (Box2D && obj)
+  {
+    std::swap(m_plb, obj.m_plb);
+    std::swap(m_prt, obj.m_prt);
     return *this;
   }
 
@@ -169,6 +174,14 @@ public:
   Point2D const & RightTop() const { return m_prt;}
 
 private:
+
+  void Order(Point2D  leftp, Point2D rightp)
+  {
+     m_plb.x() = std::min(leftp.x(), rightp.x());
+     m_plb.y() = std::min(leftp.y(), rightp.y());
+     m_prt.x() = std::max(leftp.x(), rightp.x());
+     m_prt.y() = std::max(leftp.y(), rightp.y());
+  }
 
   bool EqualWithEps(float v1, float v2) const
   {

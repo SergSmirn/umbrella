@@ -23,7 +23,11 @@ public:
     : m_x(x), m_y(y)
   {}
 
-
+  Point2D(Point2D && obj)
+  {
+    std::swap(m_x, obj.m_x);
+    std::swap(m_y, obj.m_y);
+  }
 
   // Оператор логического равенства.
   bool operator == (Point2D const & obj) const
@@ -53,6 +57,13 @@ public:
     if (this == &obj) return *this;
     m_x = obj.m_x;
     m_y = obj.m_y;
+    return *this;
+  }
+
+  Point2D & operator = (Point2D && obj)
+  {
+    std::swap(m_x, obj.m_x);
+    std::swap(m_y, obj.m_y);
     return *this;
   }
 
