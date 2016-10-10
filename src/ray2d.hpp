@@ -36,8 +36,6 @@ public:
      Rationing(orig, dir);
   }
 
-
-
   //Принадлежность точки четверти  в которой лежит луч
   bool Region (Point2D const & point)
   {
@@ -79,6 +77,7 @@ public:
 
   Ray2D & operator = (Ray2D && obj)
   {
+    if (this == &obj) return *this;
     std::swap(m_origin, obj.m_direction);
     std::swap(m_origin, obj.m_direction);
     return *this;

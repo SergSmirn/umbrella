@@ -32,8 +32,6 @@ public:
     Order(*vals[0], *vals[1]);
   }
 
-
-
   // Проверка пересечения с другим прямоугльником
   bool Intersection (Box2D const & obj)
   {
@@ -63,6 +61,7 @@ public:
 
   Box2D & operator = (Box2D && obj)
   {
+    if (this == &obj) return *this;
     std::swap(m_plb, obj.m_plb);
     std::swap(m_prt, obj.m_prt);
     return *this;
