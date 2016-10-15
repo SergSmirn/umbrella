@@ -1,5 +1,7 @@
 #pragma once
 #include "point2d.hpp"
+#include <memory>
+
 class Box2D
 {
 public:
@@ -8,6 +10,8 @@ public:
   Box2D(Box2D const & obj)
     : m_plb(obj.m_plb), m_prt(obj.m_prt)
   {}
+
+  virtual ~Box2D() {}
 
   Box2D(Box2D && obj)
   {
@@ -172,7 +176,7 @@ public:
   Point2D const & LeftBot() const { return m_plb;}
   Point2D const & RightTop() const { return m_prt;}
 
-private:
+protected:
 
   void Order(Point2D  leftp, Point2D rightp)
   {
