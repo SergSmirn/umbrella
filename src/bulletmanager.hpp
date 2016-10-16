@@ -21,6 +21,11 @@ public:
     return m_bulletList;
   }
 
+  unsigned GetAmmo(TBulletPtr bullet)
+  {
+    return m_bulletList[bullet];
+  }
+
   void SetAmmo(TBulletPtr bullet, unsigned count)
   {
     m_bulletList[bullet]+=count;
