@@ -1,8 +1,7 @@
 #include "gtest/gtest.h"
 #include "headerlist.hpp"
 
-Point2D c0{ 0, 0 }, c1{ -1, -1 }, c2{ 1, 1 }, c3{ 2, 2 }, c4{ 5, 5 }, c5{ -3, -3 },
-        c6{ 10, 10 }, c7{ 6, 6 }, c8{ 1, 0 }, c9{ 5, 0 }, c10{ 4, 4 };
+Point2D c0{ 0, 0 }, c1{ -1, -1 }, c2{ 1, 1 }, c3{ 2, 2};
 
 // Тесты для космоса.
 TEST(prog_test, test_space_construction)
@@ -78,4 +77,62 @@ TEST(prog_test, test_clash)
   Obstacle p2(c2, c3, 5);
   p1.Clash(p2);
   EXPECT_EQ(p1.GetHealth(), 5);
+}
+
+//Тесты для пришельца.
+TEST(tests, test_alien)
+{
+  Alien a1 ({1,1}, {2,2}, 30, 5, 3, 3);
+  EXPECT_EQ(a1.LeftBot(), Point2D(1,1));
+  EXPECT_EQ(a1.RightTop(), Point2D(2,2));
+  EXPECT_EQ(a1.GetHealth(), 30);
+  EXPECT_EQ(a1.GetSpeed(), 3);
+  EXPECT_EQ(a1.GetName(), "Alien");
+  EXPECT_EQ(a1.GetType(), 3);
+  EXPECT_EQ(a1.GetRate(), 5);
+}
+
+//Тесты для пули.
+TEST(tests, test_bullet)
+{
+  Bullet b1 ({1,1}, {2,2}, 15);
+  EXPECT_EQ(b1.LeftBot(), Point2D(1,1));
+  EXPECT_EQ(b1.RightTop(), Point2D(2,2));
+  EXPECT_EQ(b1.GetName(), "Bullet");
+  EXPECT_EQ(b1.GetDamage(), 15);
+  b1.SetDamage(20);
+  EXPECT_EQ(b1.GetDamage(), 20);
+}
+//Тесты для менеджера пуль.
+TEST(tests, test_bulletmanager)
+{
+  Bullet b1 ({1,1}, {2,2}, 15);
+  BulletManager bm1;
+  std::shared_ptr<Bullet> b1_ptr(new Bullet(b1));
+  bm1.SetAmmo(b1_ptr, 5);
+  EXPECT_EQ(bm1.GetAmmo(b1_ptr), 5);
+  bm1.Shot(b1_ptr);
+  EXPECT_EQ(bm1.GetAmmo(b1_ptr), 4);
+}
+
+//Тесты для игровой сущности.
+TEST(test, test_gameentity)
+{
+  GameEntity ge1 ({1,1}, {2,2}, "Ge1", 30, 5);
+  EXPECT_EQ(ge1.LeftBot(), Point2D(1,1));
+  EXPECT_EQ(ge1.RightTop(), Point2D(2,2));
+  EXPECT_EQ(ge1.GetHealth(), 30);
+  EXPECT_EQ(ge1.GetName(), "Ge1");
+  EXPECT_EQ(ge1.GetRate(), 5);
+  ge1.ReduceHealth(10);
+  EXPECT_EQ(ge1.GetHealth(), 20);
+}
+
+//Тесты для игрового объекта.
+TEST(test, test_gameobject)
+{
+  GameObject go1 ({1,1}, {2,2}, "Go1");
+  EXPECT_EQ(go1.GetName(), "Go1");
+  EXPECT_EQ(go1.LeftBot(), Point2D(1,1));
+  EXPECT_EQ(go1.RightTop(), Point2D(2,2));
 }

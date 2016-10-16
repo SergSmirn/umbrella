@@ -21,10 +21,13 @@ public:
     return m_gameObjectList;
   }
 
-  void ExitCheck(GameObject obj)
+  void ExitCheck()
   {
-    if (!(m_plb < obj.LeftBot() && obj.RightTop() < m_prt))
-            obj.GameObject::~GameObject();
+    for (std::list<TGameObjectConstPtr>::iterator it = m_gameObjectList.begin(); it != m_gameObjectList.end(); )
+    {
+      if(!(m_plb < (*it)->LeftBot() && (*it)->RightTop() < m_prt)) m_gameObjectList.remove(*it);
+      else ++it;
+    }
   }
 
 private:

@@ -7,8 +7,8 @@ public:
   Alien() = default;
 
   Alien(Point2D const & lbp, Point2D const & rtp,
-       unsigned rate, unsigned health, unsigned speed, unsigned type)
-    : GameEntity(lbp, rtp, "Alien", rate, health)
+       unsigned health, unsigned rate, unsigned speed, unsigned type)
+    : GameEntity(lbp, rtp, "Alien", health, rate)
   {
     m_speed = speed;
     m_type = type;
