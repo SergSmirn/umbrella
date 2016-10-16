@@ -1,7 +1,6 @@
 #pragma once
 #include "headerlist.hpp"
 
-
 class BulletManager : public Bullet
 {
 public:

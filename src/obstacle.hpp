@@ -1,7 +1,6 @@
 #pragma once
 #include "headerlist.hpp"
 
-
 class Obstacle : public GameObject
 {
 public:
@@ -21,9 +20,9 @@ public:
     return m_strength;
   }
 
-  void SetHealth(unsigned strength)
+  void SetStrength(unsigned strength)
   {
-    m_strength += strength;
+    m_strength = strength;
   }
 
   Obstacle ReduceStrength(unsigned damage)

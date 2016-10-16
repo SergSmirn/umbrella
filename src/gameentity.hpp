@@ -1,7 +1,6 @@
 #pragma once
 #include "headerlist.hpp"
 
-
 class GameEntity : public GameObject
 {
 public:
@@ -20,6 +19,11 @@ public:
   unsigned GetHealth()
   {
     return m_health;
+  }
+
+  unsigned GetRate()
+  {
+    return m_rate;
   }
 
   GameEntity ReduceHealth(unsigned damage)

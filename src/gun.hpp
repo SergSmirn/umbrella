@@ -1,7 +1,6 @@
 #pragma once
 #include "headerlist.hpp"
 
-
 class Gun: public GameEntity
 {
 public:
@@ -10,12 +9,17 @@ public:
 
   Gun(Point2D const & lbp, Point2D const & rtp,
       unsigned health, unsigned rate, unsigned speed)
-   : GameEntity(lbp, rtp, "Gun", rate, health)
+   : GameEntity(lbp, rtp, "Gun", health, rate)
   {
     m_speed = speed;
   }
 
   ~Gun() override {}
+
+  unsigned GetSpeed()
+  {
+    return m_speed;
+  }
 
   Gun Clash (Obstacle const & obj)
   {

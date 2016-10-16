@@ -1,7 +1,6 @@
 #pragma once
 #include "headerlist.hpp"
 
-
 class Bullet: public GameObject
 {
 public:

@@ -1,7 +1,6 @@
 #pragma once
 #include "headerlist.hpp"
 
-
 class GameObject : public Box2D
 {
 public:
