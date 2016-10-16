@@ -30,6 +30,11 @@ public:
     return *this;
   }
 
+  unsigned  GetRate()
+  {
+    return m_rate;
+  }
+
   void SetBulletManager(BulletManager const & bulletmanager)
   {
     m_bulletManager = bulletmanager;

@@ -7,7 +7,7 @@ public:
   Alien() = default;
 
   Alien(Point2D const & lbp, Point2D const & rtp,
-       unsigned health, unsigned rate, unsigned speed, unsigned type)
+       unsigned rate, unsigned health, unsigned speed, unsigned type)
     : GameEntity(lbp, rtp, "Alien", rate, health)
   {
     m_speed = speed;
@@ -16,7 +16,7 @@ public:
 
   ~Alien() override {}
 
-  unsigned const GetSpeed()
+  unsigned  GetSpeed()
   {
     return m_speed;
   }
@@ -26,7 +26,7 @@ public:
     m_speed = speed;
   }
 
-  unsigned const GetType()
+  unsigned  GetType()
   {
     return m_type;
   }
