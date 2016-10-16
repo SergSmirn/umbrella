@@ -1,9 +1,5 @@
 #include "gtest/gtest.h"
-#include "point2d.hpp"
-#include "box2d.hpp"
-#include "ray2d.hpp"
-#include <sstream>
-#include <unordered_set>
+#include "headerlist.hpp"
 
 Point2D c0{ 0, 0 }, c1{ -1, -1 }, c2{ 1, 1 }, c3{ 2, 2 }, c4{ 5, 5 }, c5{ -3, -3 },
         c6{ 10, 10 }, c7{ 6, 6 }, c8{ 1, 0 }, c9{ 5, 0 }, c10{ 4, 4 };

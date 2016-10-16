@@ -1,5 +1,6 @@
 #pragma once
-#include "box2d.hpp"
+#include "headerlist.hpp"
+
 
 class GameObject : public Box2D
 {
@@ -13,18 +14,6 @@ public:
   }
 
   ~GameObject() override {}
-
-/*
-  GameEntity(std::initializer_list<unsigned> const & lst)
-   : Box2D(lst)
-  {
-    unsigned * vals[] = { &m_health };
-    int const count = sizeof(vals) / sizeof(vals[0]);
-    auto it = lst.begin();
-    for (int i = 0; i < count && it != lst.end(); i++, ++it)
-      *vals[i] = *it;
-  }
-*/
 
   std::string const & GetName() const
   {

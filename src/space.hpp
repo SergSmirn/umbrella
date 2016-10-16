@@ -1,5 +1,6 @@
 #pragma once
-#include "gameobject.hpp"
+#include "headerlist.hpp"
+
 
 class Space : public GameObject
 {

@@ -1,5 +1,6 @@
 #pragma once
-#include "gameentity.hpp"
+#include "headerlist.hpp"
+
 
 class Obstacle : public GameObject
 {
@@ -14,17 +15,7 @@ public:
 
   ~Obstacle() override {}
 
-/*
-  Obstacle(std::initializer_list<unsigned> const & lst)
-   : Box2D(lst)
-  {
-    unsigned * vals[] = { &m_strength };
-    int const count = sizeof(vals) / sizeof(vals[0]);
-    auto it = lst.begin();
-    for (int i = 0; i < count && it != lst.end(); i++, ++it)
-      *vals[i] = *it;
-  }
-*/
+
   unsigned const GetStrength()
   {
     return m_strength;
@@ -32,7 +23,7 @@ public:
 
   void SetHealth(unsigned strength)
   {
-    m_strength = strength;
+    m_strength += strength;
   }
 
   Obstacle ReduceStrength(unsigned damage)

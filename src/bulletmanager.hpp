@@ -1,6 +1,6 @@
 #pragma once
-#include <list>
-#include "bullet.hpp"
+#include "headerlist.hpp"
+
 
 class BulletManager : public Bullet
 {
@@ -9,27 +9,24 @@ public:
 
   ~BulletManager() override {}
 
-  void Shot()
+  void Shot(TBulletPtr bullet)
   {
-    if (not m_bulletList.empty())
+    if (m_bulletList[bullet]!=0)
     {
-      m_bulletList.pop_front();
+      m_bulletList[bullet]-=1;
     }
   }
 
-  std::list<TBulletPtr> GetBullets()
+  std::map<TBulletPtr, unsigned> GetBullets()
   {
     return m_bulletList;
   }
 
-  void SetAmmo(unsigned count)
+  void SetAmmo(TBulletPtr bullet, unsigned count)
   {
-    if (count > 0)
-    {
-      m_bulletList = std::list<TBulletPtr>(count, TBulletPtr(new Bullet()));
-    }
+    m_bulletList[bullet]+=count;
   }
 
 private:
-  std::list<TBulletPtr> m_bulletList;
+  std::map<TBulletPtr, unsigned> m_bulletList;
 };

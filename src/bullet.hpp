@@ -1,5 +1,6 @@
 #pragma once
-#include "gameobject.hpp"
+#include "headerlist.hpp"
+
 
 class Bullet: public GameObject
 {
@@ -18,6 +19,7 @@ public:
   {
      return m_damage;
   }
+
   void SetDamage(uint const & damage)
   {
     m_damage = damage;

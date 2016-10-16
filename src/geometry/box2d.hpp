@@ -39,8 +39,14 @@ public:
   // Проверка пересечения с другим прямоугльником
   bool Intersection (Box2D const & obj)
   {
-      return !((m_plb.x() > obj.m_prt.x()) || (m_plb.y() > obj.m_prt.y())
-             || (m_prt.x() < obj.m_plb.x()) || (m_prt.y() < obj.m_plb.y()));
+    return !((m_plb.x() > obj.m_prt.x()) || (m_plb.y() > obj.m_prt.y())
+           || (m_prt.x() < obj.m_plb.x()) || (m_prt.y() < obj.m_plb.y()));
+  }
+
+  bool Intersection (Box2D const & box1, Box2D const & box2)
+  {
+    return !((box1.m_plb.x() > box2.m_prt.x()) || (box1.m_plb.y() > box2.m_prt.y())
+           || (box1.m_prt.x() < box2.m_plb.x()) || (box1.m_prt.y() < box2.m_plb.y()));
   }
 
   float Area() const

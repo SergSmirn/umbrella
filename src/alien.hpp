@@ -1,4 +1,5 @@
-#include "gameentity.hpp"
+#pragma once
+#include "headerlist.hpp"
 
 class Alien : public GameEntity
 {

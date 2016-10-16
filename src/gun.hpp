@@ -1,5 +1,6 @@
 #pragma once
-#include "gameentity.hpp"
+#include "headerlist.hpp"
+
 
 class Gun: public GameEntity
 {
@@ -15,6 +16,12 @@ public:
   }
 
   ~Gun() override {}
+
+  Gun Clash (Obstacle const & obj)
+  {
+    if (Intersection(*this, obj)) ReduceHealth(5);
+    return *this;
+  }
 
 private:
   unsigned m_speed = 0;

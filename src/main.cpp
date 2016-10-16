@@ -1,10 +1,5 @@
 #include <iostream>
-#include "point2d.hpp"
-#include "box2d.hpp"
-#include "ray2d.hpp"
-#include "obstacle.hpp"
-#include "space.hpp"
-#include "gameobject.hpp"
+#include "headerlist.hpp"
 
 using namespace std;
 
