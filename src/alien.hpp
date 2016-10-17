@@ -16,7 +16,7 @@ public:
 
   ~Alien() override {}
 
-  unsigned  GetSpeed()
+  unsigned GetSpeed()
   {
     return m_speed;
   }
@@ -26,7 +26,7 @@ public:
     m_speed = speed;
   }
 
-  unsigned  GetType()
+  unsigned GetType()
   {
     return m_type;
   }

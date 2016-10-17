@@ -12,11 +12,11 @@ public:
   {
     if (m_bulletList[bullet]!=0)
     {
-      m_bulletList[bullet]-=1;
+      m_bulletList[bullet]--;
     }
   }
 
-  std::map<TBulletPtr, unsigned> GetBullets()
+  std::map<TBulletPtr, unsigned> const & GetBullets() const
   {
     return m_bulletList;
   }

@@ -21,7 +21,7 @@ public:
     return m_speed;
   }
 
-  Gun Clash (Obstacle const & obj)
+  Gun Clash(Obstacle const & obj)
   {
     if (Intersection(*this, obj)) ReduceHealth(5);
     return *this;

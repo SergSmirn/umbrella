@@ -14,7 +14,7 @@ public:
 
   ~Bullet() override {}
 
-  unsigned  GetDamage() const
+  unsigned GetDamage() const
   {
      return m_damage;
   }

@@ -23,9 +23,9 @@ public:
 
   void ExitCheck()
   {
-    for (std::list<TGameObjectConstPtr>::iterator it = m_gameObjectList.begin(); it != m_gameObjectList.end(); )
+    for (auto it = m_gameObjectList.begin(); it != m_gameObjectList.end(); )
     {
-      if(!(m_plb < (*it)->LeftBot() && (*it)->RightTop() < m_prt)) m_gameObjectList.remove(*it);
+      if(!(m_plb < (*it)->LeftBot() && (*it)->RightTop() < m_prt)) m_gameObjectList.erase(it);
       else ++it;
     }
   }
