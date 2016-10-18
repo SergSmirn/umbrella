@@ -34,12 +34,12 @@ public:
     return *this;
   }
 
-  void SetBulletManager(BulletManager const & bulletManager)
+  void SetBulletManager(TBulletManagerPtr bulletManager)
   {
-    *m_bulletManager = bulletManager;
+    m_bulletManager = bulletManager;
   }
 
-  BulletManager const & GetBulletManager() const
+  BulletManager & GetBulletManager()
   {
     return *m_bulletManager;
   }
@@ -47,5 +47,5 @@ public:
 protected:
   unsigned m_health = 0;
   unsigned m_rate = 0;
-  std::shared_ptr<BulletManager> m_bulletManager;
+  TBulletManagerPtr m_bulletManager;
 };

@@ -16,7 +16,7 @@ public:
     }
   }
 
-  std::map<TBulletPtr, unsigned> const & GetBullets() const
+  std::map<TBulletPtr, unsigned> const & GetBullets()
   {
     return m_bulletList;
   }
@@ -34,3 +34,5 @@ public:
 private:
   std::map<TBulletPtr, unsigned> m_bulletList;
 };
+
+using TBulletManagerPtr = std::shared_ptr<BulletManager>;

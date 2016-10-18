@@ -5,9 +5,13 @@ using namespace std;
 
 int main()
 {
-  Point2D c1{-1,-1}, c2{1,1}, c3{1,1}, c4{4,2}, origin{0,1}, dir{1,1};
-  Ray2D r1 {origin};
-  bool eq, eq2;
-  cout << r1 << endl;
-  return 0;
+    GameEntity g1 ({1, 1},{2, 2},"al", 30, 10);
+    Bullet b1 ({1,1}, {2,2}, 15);
+    BulletManager bm1;
+    shared_ptr<Bullet> b1_ptr(new Bullet(b1));
+    bm1.SetAmmo(b1_ptr, 5);
+    shared_ptr<BulletManager> bm1_ptr(new BulletManager(bm1));
+    g1.SetBulletManager(bm1_ptr);
+    cout << g1.GetBulletManager().GetAmmo(b1_ptr) << endl;
+    return 0;
 }
