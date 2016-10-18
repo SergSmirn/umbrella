@@ -1,5 +1,7 @@
 #pragma once
 #include "point2d.hpp"
+#include <memory>
+
 class Box2D
 {
 public:
@@ -35,8 +37,14 @@ public:
   // Проверка пересечения с другим прямоугльником
   bool Intersection (Box2D const & obj)
   {
-      return !((m_plb.x() > obj.m_prt.x()) || (m_plb.y() > obj.m_prt.y())
-             || (m_prt.x() < obj.m_plb.x()) || (m_prt.y() < obj.m_plb.y()));
+    return !((m_plb.x() > obj.m_prt.x()) || (m_plb.y() > obj.m_prt.y())
+           || (m_prt.x() < obj.m_plb.x()) || (m_prt.y() < obj.m_plb.y()));
+  }
+
+  bool Intersection (Box2D const & box) const
+  {
+    return !((m_plb.x() > box.m_prt.x()) || (m_plb.y() > box.m_prt.y())
+           || (m_prt.x() < box.m_plb.x()) || (m_prt.y() < box.m_plb.y()));
   }
 
   float Area() const
@@ -169,11 +177,6 @@ public:
     return *this;
   }
 
-  Point2D const & LeftBot() const { return m_plb;}
-  Point2D const & RightTop() const { return m_prt;}
-
-private:
-
   void Order(Point2D  leftp, Point2D rightp)
   {
      m_plb.x() = std::min(leftp.x(), rightp.x());
@@ -182,6 +185,10 @@ private:
      m_prt.y() = std::max(leftp.y(), rightp.y());
   }
 
+  Point2D const & LeftBot() const { return m_plb;}
+  Point2D const & RightTop() const { return m_prt;}
+
+protected:
   bool EqualWithEps(float v1, float v2) const
   {
     return fabs(v1 - v2) < kEps;
