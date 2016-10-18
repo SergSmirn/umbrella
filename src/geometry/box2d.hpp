@@ -11,8 +11,6 @@ public:
     : m_plb(obj.m_plb), m_prt(obj.m_prt)
   {}
 
-  virtual ~Box2D() {}
-
   Box2D(Box2D && obj)
   {
     std::swap(m_plb, obj.m_plb);
@@ -43,10 +41,10 @@ public:
            || (m_prt.x() < obj.m_plb.x()) || (m_prt.y() < obj.m_plb.y()));
   }
 
-  bool Intersection (Box2D const & box1, Box2D const & box2)
+  bool Intersection (Box2D const & box) const
   {
-    return !((box1.m_plb.x() > box2.m_prt.x()) || (box1.m_plb.y() > box2.m_prt.y())
-           || (box1.m_prt.x() < box2.m_plb.x()) || (box1.m_prt.y() < box2.m_plb.y()));
+    return !((m_plb.x() > box.m_prt.x()) || (m_plb.y() > box.m_prt.y())
+           || (m_prt.x() < box.m_plb.x()) || (m_prt.y() < box.m_plb.y()));
   }
 
   float Area() const
@@ -179,11 +177,6 @@ public:
     return *this;
   }
 
-  Point2D const & LeftBot() const { return m_plb;}
-  Point2D const & RightTop() const { return m_prt;}
-
-protected:
-
   void Order(Point2D  leftp, Point2D rightp)
   {
      m_plb.x() = std::min(leftp.x(), rightp.x());
@@ -192,6 +185,10 @@ protected:
      m_prt.y() = std::max(leftp.y(), rightp.y());
   }
 
+  Point2D const & LeftBot() const { return m_plb;}
+  Point2D const & RightTop() const { return m_prt;}
+
+protected:
   bool EqualWithEps(float v1, float v2) const
   {
     return fabs(v1 - v2) < kEps;

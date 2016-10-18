@@ -25,7 +25,7 @@ public:
   {
     for (auto it = m_gameObjectList.begin(); it != m_gameObjectList.end(); )
     {
-      if(!(m_plb < (*it)->LeftBot() && (*it)->RightTop() < m_prt)) m_gameObjectList.erase(it);
+      if(!(m_box.Box2D::LeftBot() < (*it)->LeftBot() && (*it)->RightTop() < m_box.Box2D::RightTop())) m_gameObjectList.erase(it);
       else ++it;
     }
   }

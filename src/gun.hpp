@@ -23,7 +23,7 @@ public:
 
   Gun Clash(Obstacle const & obj)
   {
-    if (Intersection(*this, obj)) ReduceHealth(5);
+    if (this->Intersection(obj)) ReduceHealth(5);
     return *this;
   }
 

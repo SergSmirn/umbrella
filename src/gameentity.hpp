@@ -34,18 +34,18 @@ public:
     return *this;
   }
 
-  void SetBulletManager(BulletManager const & bulletmanager)
+  void SetBulletManager(BulletManager const & bulletManager)
   {
-    m_bulletManager = bulletmanager;
+    *m_bulletManager = bulletManager;
   }
 
   BulletManager const & GetBulletManager() const
   {
-    return m_bulletManager;
+    return *m_bulletManager;
   }
 
 protected:
   unsigned m_health = 0;
   unsigned m_rate = 0;
-  BulletManager m_bulletManager;
+  std::shared_ptr<BulletManager> m_bulletManager;
 };

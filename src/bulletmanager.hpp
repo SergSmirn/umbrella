@@ -1,12 +1,12 @@
 #pragma once
 #include "headerlist.hpp"
 
-class BulletManager : public Bullet
+class BulletManager
 {
 public:
   BulletManager() = default;
 
-  ~BulletManager() override {}
+  ~BulletManager() {}
 
   void Shot(TBulletPtr bullet)
   {
