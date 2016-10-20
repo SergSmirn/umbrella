@@ -51,6 +51,7 @@ TEST(prog_test, test_obstacle_stregth)
   EXPECT_EQ(p.GetStrength(), 5);
   p.SetStrength(7);
   EXPECT_EQ(p.GetStrength(), 7);
+  EXPECT_THROW(Obstacle p1(c1, c2, -10);, std::invalid_argument);
 }
 
 // Тесты для пушки.
@@ -113,7 +114,6 @@ TEST(tests, test_bulletmanager)
   EXPECT_EQ(bm1.GetAmmo(b1_ptr), 1);
   bm1.Shot(b1_ptr);
   EXPECT_EQ(bm1.GetAmmo(b1_ptr), 0);
-  EXPECT_THROW(bm1.Shot(b1_ptr), std::invalid_argument);
 }
 
 //Тесты для игровой сущности.

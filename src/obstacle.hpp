@@ -9,6 +9,7 @@ public:
   Obstacle(Point2D const & lbp, Point2D const & rtp, int strength)
    : GameObject(lbp, rtp, "Obstacle")
   {
+    if (strength < 0) throw std::invalid_argument("Strenght is less than 0!\n");
     m_strength = strength;
   }
 
@@ -20,9 +21,17 @@ public:
     return m_strength;
   }
 
-  void SetStrength(unsigned strength)
+  void SetStrength(int strength)
   {
-    m_strength = strength;
+    try
+    {
+      if (strength < 0) throw std::invalid_argument("Strenghth is less than 0!\n");
+      m_strength = strength;
+    }
+    catch (std::exception const & ex)
+    {
+      std::cerr << ex.what();
+    }
   }
 
   Obstacle ReduceStrength(unsigned damage)
@@ -34,7 +43,7 @@ public:
   }
 
 private:
-  int m_strength = 0;
+  unsigned m_strength = 0;
 };
 
 std::ostream & operator << (std::ostream & os, Obstacle & obj)

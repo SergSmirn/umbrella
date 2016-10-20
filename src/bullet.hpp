@@ -19,9 +19,17 @@ public:
      return m_damage;
   }
 
-  void SetDamage(uint const & damage)
+  void SetDamage(int damage)
   {
-    m_damage = damage;
+    try
+    {
+      if (damage < 0) throw std::invalid_argument("Damage is less than 0!\n");
+      m_damage = damage;
+    }
+    catch (std::exception const & ex)
+    {
+      std::cerr << ex.what();
+    }
   }
 
 private:

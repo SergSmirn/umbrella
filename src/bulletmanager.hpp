@@ -18,7 +18,6 @@ public:
     catch (std::exception const & ex)
     {
       std::cerr << ex.what();
-      throw;
     }
   }
 
@@ -32,9 +31,17 @@ public:
     return m_bulletList[bullet];
   }
 
-  void SetAmmo(TBulletPtr bullet, unsigned count)
+  void SetAmmo(TBulletPtr bullet, int count)
   {
-    m_bulletList[bullet]+=count;
+    try
+    {
+      if (m_bulletList[bullet]+=count < 0) throw std::invalid_argument("Speed is less than 0!\n");
+      m_bulletList[bullet]+=count;
+    }
+    catch (std::exception const & ex)
+    {
+      std::cerr << ex.what();
+    }
   }
 
 private:

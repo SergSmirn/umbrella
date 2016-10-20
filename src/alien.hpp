@@ -23,9 +23,17 @@ public:
     return m_speed;
   }
 
-  void SetSpeed(unsigned speed)
+  void SetSpeed(int speed)
   {
-    m_speed = speed;
+    try
+    {
+      if (speed < 0) throw std::invalid_argument("Speed is less than 0!\n");
+      m_speed = speed;
+    }
+    catch (std::exception const & ex)
+    {
+      std::cerr << ex.what();
+    }
   }
 
   unsigned GetType()
@@ -33,9 +41,17 @@ public:
     return m_type;
   }
 
-  void SetType(unsigned type)
+  void SetType(int type)
   {
-    m_speed = type;
+    try
+    {
+      if (type < 0) throw std::invalid_argument("Type is less than 0!\n");
+      m_type = type;
+    }
+    catch (std::exception const & ex)
+    {
+      std::cerr << ex.what();
+    }
   }
 
 private:
