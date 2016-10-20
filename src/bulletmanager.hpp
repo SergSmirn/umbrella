@@ -10,9 +10,15 @@ public:
 
   void Shot(TBulletPtr bullet)
   {
-    if (m_bulletList[bullet]!=0)
+    try
     {
+      if (m_bulletList[bullet] == 0) throw std::invalid_argument("No bullets!\n");
       m_bulletList[bullet]--;
+    }
+    catch (std::exception const & ex)
+    {
+      std::cerr << ex.what();
+      throw;
     }
   }
 

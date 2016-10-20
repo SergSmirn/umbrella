@@ -107,12 +107,16 @@ public:
   // Деление на число.
   Point2D operator / (float scale) const
   {
-    if (EqualWithEps(scale, 0))
+    try
     {
-      std::cout << "division by zero is not defined\n";
+      if (EqualWithEps(scale, 0)) throw std::invalid_argument ("Division by zero is not defined\n");
+      return { m_x / scale, m_y / scale };
+    }
+    catch (std::exception const & ex)
+    {
+      std::cerr << ex.what();
       return *this;
     }
-    return { m_x / scale, m_y / scale };
   }
 
   Point2D & operator += (Point2D const & obj)
@@ -138,14 +142,18 @@ public:
 
   Point2D & operator /= (float scale)
   {
-    if (EqualWithEps(scale, 0))
-      {
-        std::cout << "division by zero is not defined\n";
-        return *this;
-      }
-    m_x /= scale;
-    m_y /= scale;
-    return *this;
+    try
+    {
+      if (EqualWithEps(scale, 0)) throw std::invalid_argument ("Division by zero is not defined\n");
+      m_x /= scale;
+      m_y /= scale;
+      return *this;
+    }
+    catch (std::exception const & ex)
+    {
+      std::cerr << ex.what();
+      return *this;
+    }
   }
 
   // Переопределение оператора [].

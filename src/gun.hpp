@@ -8,9 +8,10 @@ public:
 
 
   Gun(Point2D const & lbp, Point2D const & rtp,
-      unsigned health, unsigned rate, unsigned speed)
+      int health, int rate, int speed)
    : GameEntity(lbp, rtp, "Gun", health, rate)
   {
+    if (speed < 0) throw std::invalid_argument("Speed is less than 0!\n");
     m_speed = speed;
   }
 

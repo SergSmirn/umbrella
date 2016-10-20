@@ -6,7 +6,7 @@ class Obstacle : public GameObject
 public:
   Obstacle() = default;
     
-  Obstacle(Point2D const & lbp, Point2D const & rtp, unsigned strength)
+  Obstacle(Point2D const & lbp, Point2D const & rtp, int strength)
    : GameObject(lbp, rtp, "Obstacle")
   {
     m_strength = strength;
@@ -34,7 +34,7 @@ public:
   }
 
 private:
-  unsigned m_strength = 0;
+  int m_strength = 0;
 };
 
 std::ostream & operator << (std::ostream & os, Obstacle & obj)

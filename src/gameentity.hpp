@@ -7,9 +7,11 @@ public:
   GameEntity() = default;
 
   GameEntity(Point2D const & lbp, Point2D const & rtp,
-             std::string const & name, unsigned health, unsigned rate)
+             std::string const & name, int health, int rate)
    : GameObject(lbp, rtp, name)
   {
+    if (health < 0) throw std::invalid_argument("Health is less than 0!\n");
+    if (rate < 0) throw std::invalid_argument("Rate is less than 0!\n");
     m_health = health;
     m_rate = rate;
   }

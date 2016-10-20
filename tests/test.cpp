@@ -90,8 +90,8 @@ TEST(tests, test_alien)
   EXPECT_EQ(a1.GetName(), "Alien");
   EXPECT_EQ(a1.GetType(), 3);
   EXPECT_EQ(a1.GetRate(), 5);
+  EXPECT_THROW(Alien a1 ({1,1}, {2,2}, 30, 5, -3, 3), std::invalid_argument);
 }
-
 //Тесты для пули.
 TEST(tests, test_bullet)
 {
@@ -109,10 +109,11 @@ TEST(tests, test_bulletmanager)
   Bullet b1 ({1,1}, {2,2}, 15);
   BulletManager bm1;
   std::shared_ptr<Bullet> b1_ptr(new Bullet(b1));
-  bm1.SetAmmo(b1_ptr, 5);
-  EXPECT_EQ(bm1.GetAmmo(b1_ptr), 5);
+  bm1.SetAmmo(b1_ptr, 1);
+  EXPECT_EQ(bm1.GetAmmo(b1_ptr), 1);
   bm1.Shot(b1_ptr);
-  EXPECT_EQ(bm1.GetAmmo(b1_ptr), 4);
+  EXPECT_EQ(bm1.GetAmmo(b1_ptr), 0);
+  EXPECT_THROW(bm1.Shot(b1_ptr), std::invalid_argument);
 }
 
 //Тесты для игровой сущности.
@@ -126,6 +127,7 @@ TEST(test, test_gameentity)
   EXPECT_EQ(ge1.GetRate(), 5);
   ge1.ReduceHealth(10);
   EXPECT_EQ(ge1.GetHealth(), 20);
+  EXPECT_THROW(GameEntity ge ({1,1}, {2,2}, "Ge1", -30, 5), std::invalid_argument);
 }
 
 //Тесты для игрового объекта.

@@ -7,9 +7,11 @@ public:
   Alien() = default;
 
   Alien(Point2D const & lbp, Point2D const & rtp,
-       unsigned health, unsigned rate, unsigned speed, unsigned type)
+       int health, int rate, int speed, int type)
     : GameEntity(lbp, rtp, "Alien", health, rate)
   {
+    if (speed < 0) throw std::invalid_argument("Speed is less than 0!\n");
+    if (type < 0) throw std::invalid_argument("Type is less than 0!\n");
     m_speed = speed;
     m_type = type;
   }

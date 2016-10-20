@@ -64,7 +64,7 @@ public:
 
   bool operator == (Ray2D const & obj) const
   {
-    return m_origin==obj.OriginN() && m_direction==obj.DirectionN();
+    return m_origin == obj.OriginN() && m_direction==obj.DirectionN();
   }
 
   Ray2D & operator = (Ray2D const & obj)
