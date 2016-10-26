@@ -7,11 +7,11 @@ public:
   Alien() = default;
 
   Alien(Point2D const & lbp, Point2D const & rtp,
-       int health, int rate, int speed, int type)
+       unsigned health, unsigned rate, unsigned speed, unsigned type)
     : GameEntity(lbp, rtp, "Alien", health, rate)
   {
-    if (speed < 0) throw std::invalid_argument("Speed is less than 0!\n");
-    if (type < 0) throw std::invalid_argument("Type is less than 0!\n");
+    if (speed > 20) throw std::invalid_argument("Speed is less than 0!\n");
+    if (type > 5) throw std::invalid_argument("Type is less than 0!\n");
     m_speed = speed;
     m_type = type;
   }
@@ -23,11 +23,11 @@ public:
     return m_speed;
   }
 
-  void SetSpeed(int speed)
+  void SetSpeed(unsigned speed)
   {
     try
     {
-      if (speed < 0) throw std::invalid_argument("Speed is less than 0!\n");
+      if (speed > 20) throw std::invalid_argument("Speed is more than 20!\n");
       m_speed = speed;
     }
     catch (std::exception const & ex)
@@ -41,11 +41,11 @@ public:
     return m_type;
   }
 
-  void SetType(int type)
+  void SetType(unsigned type)
   {
     try
     {
-      if (type < 0) throw std::invalid_argument("Type is less than 0!\n");
+      if (type > 5) throw std::invalid_argument("Type is more than 5!\n");
       m_type = type;
     }
     catch (std::exception const & ex)

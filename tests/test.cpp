@@ -74,7 +74,7 @@ TEST(prog_test, test_gun_construction)
 
 TEST(prog_test, test_clash)
 {
-  Gun p1(c1, c2, 10, 10, 10);
+  Gun p1(c1, c2, 10, 4, 4);
   Obstacle p2(c2, c3, 5);
   p1.Clash(p2);
   EXPECT_EQ(p1.GetHealth(), 5);
@@ -91,7 +91,7 @@ TEST(tests, test_alien)
   EXPECT_EQ(a1.GetName(), "Alien");
   EXPECT_EQ(a1.GetType(), 3);
   EXPECT_EQ(a1.GetRate(), 5);
-  EXPECT_THROW(Alien a1 ({1,1}, {2,2}, 30, 5, -3, 3), std::invalid_argument);
+  EXPECT_THROW(Alien a1 ({1,1}, {2,2}, 30, 5, 40, 3), std::invalid_argument);
 }
 //Тесты для пули.
 TEST(tests, test_bullet)
@@ -127,7 +127,7 @@ TEST(test, test_gameentity)
   EXPECT_EQ(ge1.GetRate(), 5);
   ge1.ReduceHealth(10);
   EXPECT_EQ(ge1.GetHealth(), 20);
-  EXPECT_THROW(GameEntity ge ({1,1}, {2,2}, "Ge1", -30, 5), std::invalid_argument);
+  EXPECT_THROW(GameEntity ge ({1,1}, {2,2}, "Ge1", 200, 2), std::invalid_argument);
 }
 
 //Тесты для игрового объекта.

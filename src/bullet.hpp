@@ -19,11 +19,11 @@ public:
      return m_damage;
   }
 
-  void SetDamage(int damage)
+  void SetDamage(unsigned damage)
   {
     try
     {
-      if (damage < 0) throw std::invalid_argument("Damage is less than 0!\n");
+      if (damage > 50) throw std::invalid_argument("Damage is more than 50!\n");
       m_damage = damage;
     }
     catch (std::exception const & ex)

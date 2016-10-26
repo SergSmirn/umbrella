@@ -6,10 +6,10 @@ class Obstacle : public GameObject
 public:
   Obstacle() = default;
     
-  Obstacle(Point2D const & lbp, Point2D const & rtp, int strength)
+  Obstacle(Point2D const & lbp, Point2D const & rtp, unsigned strength)
    : GameObject(lbp, rtp, "Obstacle")
   {
-    if (strength < 0) throw std::invalid_argument("Strenght is less than 0!\n");
+    if (strength > 50) throw std::invalid_argument("Strenght is less than 50!\n");
     m_strength = strength;
   }
 
@@ -21,11 +21,11 @@ public:
     return m_strength;
   }
 
-  void SetStrength(int strength)
+  void SetStrength(unsigned strength)
   {
     try
     {
-      if (strength < 0) throw std::invalid_argument("Strenghth is less than 0!\n");
+      if (strength > 50) throw std::invalid_argument("Strenghth is more than 50!\n");
       m_strength = strength;
     }
     catch (std::exception const & ex)

@@ -12,7 +12,7 @@ public:
   {
     try
     {
-      if (m_bulletList[bullet] == 0) throw std::invalid_argument("No bullets!\n");
+      if (m_bulletList[bullet] != 0)
       m_bulletList[bullet]--;
     }
     catch (std::exception const & ex)
@@ -31,17 +31,17 @@ public:
     return m_bulletList[bullet];
   }
 
-  void SetAmmo(TBulletPtr bullet, int count)
+  void SetAmmo(TBulletPtr bullet, unsigned count)
   {
-    try
-    {
-      if (m_bulletList[bullet]+=count < 0) throw std::invalid_argument("Speed is less than 0!\n");
-      m_bulletList[bullet]+=count;
-    }
-    catch (std::exception const & ex)
-    {
-      std::cerr << ex.what();
-    }
+    if (count <= 200)
+      m_bulletList[bullet] = count;
+  }
+
+  void AddAmmo(TBulletPtr bullet, unsigned count)
+  {
+    if (m_bulletList[bullet] + count > 200)
+      m_bulletList[bullet] = 200;
+    else m_bulletList[bullet]+=count;
   }
 
 private:
