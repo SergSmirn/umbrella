@@ -10,9 +10,14 @@ public:
 
   void Shot(TBulletPtr bullet)
   {
-    if (m_bulletList[bullet]!=0)
+    try
     {
+      if (m_bulletList[bullet] != 0)
       m_bulletList[bullet]--;
+    }
+    catch (std::exception const & ex)
+    {
+      std::cerr << ex.what();
     }
   }
 
@@ -28,7 +33,15 @@ public:
 
   void SetAmmo(TBulletPtr bullet, unsigned count)
   {
-    m_bulletList[bullet]+=count;
+    if (count <= 200)
+      m_bulletList[bullet] = count;
+  }
+
+  void AddAmmo(TBulletPtr bullet, unsigned count)
+  {
+    if (m_bulletList[bullet] + count > 200)
+      m_bulletList[bullet] = 200;
+    else m_bulletList[bullet]+=count;
   }
 
 private:

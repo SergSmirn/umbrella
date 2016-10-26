@@ -10,6 +10,8 @@ public:
        unsigned health, unsigned rate, unsigned speed, unsigned type)
     : GameEntity(lbp, rtp, "Alien", health, rate)
   {
+    if (speed > 20) throw std::invalid_argument("Speed is less than 0!\n");
+    if (type > 5) throw std::invalid_argument("Type is less than 0!\n");
     m_speed = speed;
     m_type = type;
   }
@@ -23,7 +25,15 @@ public:
 
   void SetSpeed(unsigned speed)
   {
-    m_speed = speed;
+    try
+    {
+      if (speed > 20) throw std::invalid_argument("Speed is more than 20!\n");
+      m_speed = speed;
+    }
+    catch (std::exception const & ex)
+    {
+      std::cerr << ex.what();
+    }
   }
 
   unsigned GetType()
@@ -33,7 +43,15 @@ public:
 
   void SetType(unsigned type)
   {
-    m_speed = type;
+    try
+    {
+      if (type > 5) throw std::invalid_argument("Type is more than 5!\n");
+      m_type = type;
+    }
+    catch (std::exception const & ex)
+    {
+      std::cerr << ex.what();
+    }
   }
 
 private:

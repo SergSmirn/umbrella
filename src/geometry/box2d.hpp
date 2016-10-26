@@ -115,12 +115,16 @@ public:
   // Деление на число.
   Box2D operator / (float scale) const
   {
-    if (EqualWithEps(scale, 0))
+    try
     {
-      std::cout << "division by zero is not defined\n";
+      if (EqualWithEps(scale, 0)) throw std::invalid_argument ("Division by zero is not defined\n");
+      return { m_plb, m_prt / scale };
+    }
+    catch (std::exception const & ex)
+    {
+      std::cerr << ex.what();
       return *this;
     }
-    return { m_plb, m_prt / scale };;
   }
 
   Box2D & operator += (Box2D const & obj)
@@ -145,13 +149,17 @@ public:
 
   Box2D & operator /= (float scale)
   {
-    if (EqualWithEps(scale, 0))
+    try
     {
-      std::cout << "division by zero is not defined\n";
+      if (EqualWithEps(scale, 0)) throw std::invalid_argument ("Division by zero is not defined\n");
+      m_prt /= scale;
       return *this;
     }
-    m_prt /=scale;
-    return *this;
+    catch (std::exception const & ex)
+    {
+      std::cerr << ex.what();
+      return *this;
+    }
   }
 
   Box2D MoveX (float x)

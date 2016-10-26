@@ -9,6 +9,7 @@ public:
   Obstacle(Point2D const & lbp, Point2D const & rtp, unsigned strength)
    : GameObject(lbp, rtp, "Obstacle")
   {
+    if (strength > 50) throw std::invalid_argument("Strenght is less than 50!\n");
     m_strength = strength;
   }
 
@@ -22,7 +23,15 @@ public:
 
   void SetStrength(unsigned strength)
   {
-    m_strength = strength;
+    try
+    {
+      if (strength > 50) throw std::invalid_argument("Strenghth is more than 50!\n");
+      m_strength = strength;
+    }
+    catch (std::exception const & ex)
+    {
+      std::cerr << ex.what();
+    }
   }
 
   Obstacle ReduceStrength(unsigned damage)

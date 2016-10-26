@@ -11,6 +11,7 @@ public:
       unsigned health, unsigned rate, unsigned speed)
    : GameEntity(lbp, rtp, "Gun", health, rate)
   {
+    if (speed > 20) throw std::invalid_argument("Speed is more than 20!\n");
     m_speed = speed;
   }
 
