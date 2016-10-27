@@ -12,3 +12,4 @@
 #include "obstacle.hpp"
 #include "alien.hpp"
 #include "gun.hpp"
+#include "logger.hpp"

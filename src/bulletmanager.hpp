@@ -49,3 +49,17 @@ private:
 };
 
 using TBulletManagerPtr = std::shared_ptr<BulletManager>;
+
+std::ostream & operator << (std::ostream & os,
+                           BulletManager & obj)
+{
+  os << "BulletManager [";
+  auto bullets = obj.GetBullets();
+  for (auto it = bullets.begin(); it != bullets.end(); ++it)
+    {
+      os << *(it->first);
+      os << " - Count: " << it->second;
+    }
+  os << "]";
+  return os;
+}

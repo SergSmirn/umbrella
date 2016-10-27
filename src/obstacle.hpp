@@ -46,8 +46,10 @@ private:
   unsigned m_strength = 0;
 };
 
-std::ostream & operator << (std::ostream & os, Obstacle & obj)
+std::ostream & operator << (std::ostream & os,
+                            Obstacle & obj)
 {
-  os << "Obstacle {" << obj.LeftBot() << ", " << obj.RightTop() << ", " << obj.GetStrength() << "}";
+  os << obj.GetName() << " [LeftBotPosition: " << obj.LeftBot()
+     << "; Strength: " << obj.GetStrength() << "]";
   return os;
 }

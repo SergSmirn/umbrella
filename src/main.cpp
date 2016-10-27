@@ -5,25 +5,14 @@ using namespace std;
 
 int main()
 {
-    GameEntity g1 ({1, 1},{2, 2},"al", 30, 2);
-    Bullet b1 ({1,1}, {2,2}, 15);
-    BulletManager bm1;
-    shared_ptr<Bullet> b1_ptr(new Bullet(b1));
-    bm1.SetAmmo(b1_ptr, 5);
-    shared_ptr<BulletManager> bm1_ptr(new BulletManager(bm1));
-    g1.SetBulletManager(bm1_ptr);
-    cout << g1.GetBulletManager().GetAmmo(b1_ptr) << endl;
-    try
-    {
-    Alien a1 ({1,1}, {2,2}, 45, 55, 3, 3);
-    cout <<  a1.GetHealth() << endl;
-    }
-    catch (std::exception const & ex)
-    {
-      std::cerr << ex.what();
-    }
-    catch(...)
-    {
-      std::cerr << "error";
-    }
+    /*Alien a({1, 3}, {5, 6}, 30, 2, 5, 1);
+    cout << a << endl;
+    Bullet b({1, 1}, {2, 2}, 30),b1({3, 3}, {4, 4}, 35);
+    cout << b << endl;
+    TBulletPtr bptr = TBulletPtr (&b);
+    TBulletPtr b1ptr = TBulletPtr (&b1);
+    BulletManager bm;
+    bm.AddAmmo(bptr, 30);
+    bm.AddAmmo(b1ptr, 10);
+    cout << bm << endl; */
 }

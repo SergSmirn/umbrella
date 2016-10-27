@@ -58,3 +58,14 @@ private:
   unsigned m_speed = 0;
   unsigned m_type = 0;
 };
+
+std::ostream & operator << (std::ostream & os,
+                            Alien & obj)
+{
+  os << obj.GetName() << " [LeftBotPosition: " << obj.LeftBot()
+     << "; Health: " << obj.GetHealth()
+     << "; Rate: " << obj.GetRate()
+     << "; Speed: " << obj.GetSpeed()
+     << "; Type: " << obj.GetType() << "]";
+  return os;
+}

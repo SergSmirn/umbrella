@@ -37,3 +37,11 @@ private:
 };
 
 using TBulletPtr = std::shared_ptr<Bullet>;
+
+std::ostream & operator << (std::ostream & os,
+                            Bullet const & obj)
+{
+  os << " " << obj.GetName() << " [LeftBotPosition: " << obj.LeftBot()
+     << "; Damage: " << obj.GetDamage() << "]";
+  return os;
+}

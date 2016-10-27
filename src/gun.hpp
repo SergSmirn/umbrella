@@ -31,3 +31,13 @@ public:
 private:
   unsigned m_speed = 0;
 };
+
+std::ostream & operator << (std::ostream & os,
+                            Gun & obj)
+{
+  os << obj.GetName() <<" [LeftBotPosition: " << obj.LeftBot()
+     << "; Health: " << obj.GetHealth()
+     << "; Rate: " << obj.GetRate()
+     << "; Speed: " << obj.GetSpeed() << "]";
+  return os;
+}
