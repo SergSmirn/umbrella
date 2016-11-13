@@ -18,12 +18,12 @@ public:
 
   ~GameEntity() override {}
 
-  unsigned GetHealth()
+  unsigned GetHealth() const
   {
     return m_health;
   }
 
-  unsigned GetRate()
+  unsigned GetRate() const
   {
     return m_rate;
   }
@@ -59,3 +59,4 @@ protected:
   unsigned m_rate = 0;
   TBulletManagerPtr m_bulletManager;
 };
+
