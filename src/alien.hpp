@@ -18,7 +18,7 @@ public:
 
   ~Alien() override {}
 
-  unsigned GetSpeed()
+  unsigned GetSpeed() const
   {
     return m_speed;
   }
@@ -36,7 +36,7 @@ public:
     }
   }
 
-  unsigned GetType()
+  unsigned GetType() const
   {
     return m_type;
   }
@@ -60,7 +60,7 @@ private:
 };
 
 std::ostream & operator << (std::ostream & os,
-                            Alien & obj)
+                            Alien const & obj)
 {
   os << obj.GetName() << " [LeftBotPosition: " << obj.LeftBot()
      << "; Health: " << obj.GetHealth()

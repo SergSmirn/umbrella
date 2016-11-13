@@ -17,7 +17,7 @@ public:
 
   ~Gun() override {}
 
-  unsigned GetSpeed()
+  unsigned GetSpeed() const
   {
     return m_speed;
   }
@@ -33,7 +33,7 @@ private:
 };
 
 std::ostream & operator << (std::ostream & os,
-                            Gun & obj)
+                            Gun const & obj)
 {
   os << obj.GetName() <<" [LeftBotPosition: " << obj.LeftBot()
      << "; Health: " << obj.GetHealth()

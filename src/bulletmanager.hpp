@@ -21,7 +21,7 @@ public:
     }
   }
 
-  std::map<TBulletPtr, unsigned> const & GetBullets()
+  std::map<TBulletPtr, unsigned> const & GetBullets() const
   {
     return m_bulletList;
   }
@@ -51,7 +51,7 @@ private:
 using TBulletManagerPtr = std::shared_ptr<BulletManager>;
 
 std::ostream & operator << (std::ostream & os,
-                           BulletManager & obj)
+                           BulletManager const & obj)
 {
   os << "BulletManager [";
   auto bullets = obj.GetBullets();

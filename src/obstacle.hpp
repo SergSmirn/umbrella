@@ -16,7 +16,7 @@ public:
   ~Obstacle() override {}
 
 
-  unsigned const GetStrength()
+  unsigned const GetStrength() const
   {
     return m_strength;
   }
@@ -47,7 +47,7 @@ private:
 };
 
 std::ostream & operator << (std::ostream & os,
-                            Obstacle & obj)
+                            Obstacle const & obj)
 {
   os << obj.GetName() << " [LeftBotPosition: " << obj.LeftBot()
      << "; Strength: " << obj.GetStrength() << "]";
