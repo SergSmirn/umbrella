@@ -13,3 +13,5 @@
 #include "alien.hpp"
 #include "gun.hpp"
 #include "logger.hpp"
+#include "singleton.hpp"
+#include "factory.hpp"
