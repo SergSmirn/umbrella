@@ -1,7 +1,8 @@
 #pragma once
 #include <memory>
 
-template<typename T> class Singleton {
+template<typename T> class Singleton
+{
  public:
   template<typename... Args>
   static T & Instance(Args && ... args)

@@ -15,3 +15,4 @@
 #include "logger.hpp"
 #include "singleton.hpp"
 #include "factory.hpp"
+#include "observer.hpp"
