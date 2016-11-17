@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "headerlist.hpp"
+#include "singleton.hpp"
 enum LogLevel
 {
   trace,
@@ -11,7 +11,7 @@ enum LogLevel
   fatal
 };
 
-class Logger
+class Logger : public Singleton<Logger>
 {
 public:
   static Logger & GetLogger(LogLevel level)
@@ -101,6 +101,8 @@ public:
   }
 
 private:
+  friend class Singleton<Logger>;
+
   Logger() = default;
 
   static LogLevel m_Level;
