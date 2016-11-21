@@ -45,7 +45,7 @@ GLWidget::GLWidget(MainWindow * mw, QColor const & background)
   : m_mainWindow(mw)
   , m_background(background)
 {
-  setMinimumSize(1024, 768);
+  setMinimumSize(800, 800);
   setFocusPolicy(Qt::StrongFocus);
 }
 
@@ -53,6 +53,7 @@ GLWidget::~GLWidget()
 {
   makeCurrent();
   delete m_texture;
+//  delete m_textureStar;
   delete m_texturedRect;
   doneCurrent();
 }
@@ -63,10 +64,28 @@ void GLWidget::initializeGL()
 
   m_texturedRect = new TexturedRect();
   m_texturedRect->Initialize(this);
+  m_texture = new QOpenGLTexture(QImage("data/star.png"));
 
-  m_texture = new QOpenGLTexture(QImage("data/alien.png"));
 
   m_time.start();
+}
+
+float clarity;
+
+void Getclarity(unsigned int p)
+{
+  clarity = 0.5 - 0.5 * cos(2*3.14*p/500);
+}
+
+int coo[16];
+void Getcoo (unsigned int p)
+{
+  if (p==1)
+  {
+    for (int i = 1; i < 16; i++ )
+    coo[i] = rand()%20;
+  }
+
 }
 
 void GLWidget::paintGL()
@@ -87,11 +106,12 @@ void GLWidget::paintGL()
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+  Getcoo(m_frames);
+  Getclarity(m_frames);
   Render();
 
   glDisable(GL_CULL_FACE);
   glDisable(GL_BLEND);
-
   painter.endNativePainting();
 
   if (elapsed != 0)
@@ -103,12 +123,13 @@ void GLWidget::paintGL()
   }
   painter.end();
 
-  if (!(m_frames % 100))
+  if (!(m_frames % 500))
   {
     m_time.start();
     m_frames = 0;
   }
   ++m_frames;
+
   update();
 }
 
@@ -134,10 +155,12 @@ void GLWidget::Update(float elapsedSeconds)
 
 void GLWidget::Render()
 {
-  m_texturedRect->Render(m_texture, m_position, QSize(128, 128), m_screenSize);
-  m_texturedRect->Render(m_texture, QVector2D(400, 400), QSize(128, 128), m_screenSize);
-  m_texturedRect->Render(m_texture, QVector2D(600, 600), QSize(128, 128), m_screenSize);
+  for (int j = 1; j <= 4; j++)
+    for (int i =1; i <= 4; i++ )
+      m_texturedRect->Render(m_texture, QVector2D((i-1)*200 + coo[i*j]*10,(j-1)*200 + coo[i*j]*10), QSize(40, 40), m_screenSize, clarity);
 }
+
+
 
 void GLWidget::mousePressEvent(QMouseEvent * e)
 {

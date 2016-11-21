@@ -10,6 +10,7 @@ TexturedRect::~TexturedRect()
   delete m_vertexShader;
   delete m_fragmentShader;
   m_vbo.destroy();
+
 }
 
 bool TexturedRect::Initialize(QOpenGLFunctions * functions)
@@ -34,10 +35,11 @@ bool TexturedRect::Initialize(QOpenGLFunctions * functions)
   char const * fsrc =
     "varying highp vec2 v_texCoord;\n"
     "uniform sampler2D tex;\n"
+    "uniform float a_x;\n"
     "void main(void)\n"
     "{\n"
     "  highp vec4 color = texture2D(tex, v_texCoord);\n"
-    "  gl_FragColor = clamp(color, 0.0, 1.0);\n"
+    "  gl_FragColor = clamp(color, 0.0, a_x);\n"
     "}\n";
   if (!m_fragmentShader->compileSourceCode(fsrc)) return false;
 
@@ -47,6 +49,7 @@ bool TexturedRect::Initialize(QOpenGLFunctions * functions)
   if (!m_program->link()) return false;
 
   m_positionAttr = m_program->attributeLocation("a_position");
+  m_clarityAttr = m_program->uniformLocation("a_x");
   m_texCoordAttr = m_program->attributeLocation("a_texCoord");
   m_modelViewProjectionUniform = m_program->uniformLocation("u_modelViewProjection");
   m_textureUniform = m_program->uniformLocation("tex");
@@ -70,7 +73,7 @@ bool TexturedRect::Initialize(QOpenGLFunctions * functions)
 }
 
 void TexturedRect::Render(QOpenGLTexture * texture, QVector2D const & position,
-                          QSize const & size, QSize const & screenSize)
+                          QSize const & size, QSize const & screenSize, float const clarity)
 {
   if (texture == nullptr) return;
 
@@ -83,14 +86,18 @@ void TexturedRect::Render(QOpenGLTexture * texture, QVector2D const & position,
   m_program->bind();
   m_program->setUniformValue(m_textureUniform, 0); // use texture unit 0
   m_program->setUniformValue(m_modelViewProjectionUniform, mvp);
+  m_program->setUniformValue(m_clarityAttr, clarity);
   texture->bind();
   m_program->enableAttributeArray(m_positionAttr);
   m_program->enableAttributeArray(m_texCoordAttr);
+
+
   m_vbo.bind();
   m_program->setAttributeBuffer(m_positionAttr, GL_FLOAT, 0, 3, 5 * sizeof(float));
   m_program->setAttributeBuffer(m_texCoordAttr, GL_FLOAT, 3 * sizeof(float), 2, 5 * sizeof(float));
   m_vbo.release();
   m_functions->glDrawArrays(GL_TRIANGLES, 0, 6);
+
   m_program->disableAttributeArray(m_positionAttr);
   m_program->disableAttributeArray(m_texCoordAttr);
   m_program->release();

@@ -9,4 +9,6 @@ class SettingWindow : public QMainWindow
 
 public:
   explicit SettingWindow(QMainWindow * parent = 0);
+private slots:
+  void StartButtonClicked();
 };

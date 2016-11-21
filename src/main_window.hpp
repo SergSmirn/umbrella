@@ -1,4 +1,5 @@
 #pragma once
+#pragma once
 
 #include <QMainWindow>
 #include <QTimer>
@@ -18,4 +19,5 @@ private:
   QTimer * m_timer = nullptr;
   QGridLayout * m_layout = nullptr;
   QGLWidget * m_glWidget = nullptr;
+  QPushButton * m_settingsButton = nullptr;
 };

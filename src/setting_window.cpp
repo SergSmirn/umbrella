@@ -6,6 +6,7 @@
 #include <QFormLayout>
 #include <QSpinBox>
 #include <QDialog>
+#include "main_window.hpp"
 
 typedef void (QWidget::*QWidgetVoidSlot)();
 
@@ -34,10 +35,10 @@ SettingWindow::SettingWindow(QMainWindow * parent) : QMainWindow(parent)
   buttonClose->setFixedWidth(100);
   connect(buttonClose, SIGNAL(clicked()), this, SLOT(close()));
 
-  QPushButton * buttonSave = new QPushButton("Save", centralWidget);
+  QPushButton * buttonSave = new QPushButton("Start", centralWidget);
   buttonSave->move(400, 350);
   buttonSave->setFixedWidth(100);
-  connect(buttonSave, SIGNAL(clicked()), this, SLOT(close()));
+  connect(buttonSave, SIGNAL(clicked()), this, SLOT(StartButtonClicked()));
 
   QLineEdit * name = new QLineEdit();
   QFormLayout * layout = new QFormLayout(centralWidget);
@@ -48,4 +49,15 @@ SettingWindow::SettingWindow(QMainWindow * parent) : QMainWindow(parent)
 
   setFocusPolicy(Qt::StrongFocus);
 
+}
+
+void SettingWindow::StartButtonClicked()
+{
+  qDebug("StartButtonClicked");
+
+  MainWindow * mainWindow = new MainWindow();
+
+  mainWindow->show();
+
+  this->hide();
 }

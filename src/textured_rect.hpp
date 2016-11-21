@@ -16,7 +16,7 @@ public:
 
   bool Initialize(QOpenGLFunctions * functions);
   void Render(QOpenGLTexture * texture, QVector2D const & position,
-              QSize const & size, QSize const & screenSize);
+              QSize const & size, QSize const & screenSize, const float clarity);
 
 private:
   QOpenGLFunctions * m_functions = nullptr;
@@ -28,6 +28,7 @@ private:
   QOpenGLBuffer m_vbo;
 
   int m_positionAttr = 0;
+  int m_clarityAttr = 0;
   int m_texCoordAttr = 0;
   int m_modelViewProjectionUniform = 0;
   int m_textureUniform = 0;
