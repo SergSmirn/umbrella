@@ -69,24 +69,6 @@ void GLWidget::initializeGL()
   m_time.start();
 }
 
-/*float clarity;
-
-void GetClarity(unsigned int p)
-{
-  clarity = 0.5 - 0.5 * cos(M_PI * 0.004 * p);
-}
-
-int coordinates[16];
-void GetCoordinates (unsigned int p)
-{
-  if (p==1)
-  {
-    for (int i = 1; i < 16; i++ )
-    coordinates[i] = rand()%20;
-  }
-
-}*/
-
 void GLWidget::paintGL()
 {
   int const elapsed = m_time.elapsed();
@@ -107,8 +89,7 @@ void GLWidget::paintGL()
 
   m_texturedRect->ChangeCoordinates(m_frames);
   m_texturedRect->ChangeClarity(m_frames);
-  //GetCoordinates(m_frames);
-  //GetClarity(m_frames);
+
   Render();
 
   glDisable(GL_CULL_FACE);
