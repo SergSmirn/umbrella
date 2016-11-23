@@ -18,6 +18,32 @@ public:
   void Render(QOpenGLTexture * texture, QVector2D const & position,
               QSize const & size, QSize const & screenSize, const float clarity);
 
+
+  void ChangeClarity(unsigned int p)
+  {
+    m_clarity = 0.5 - 0.5 * cos(M_PI * 0.004 * p);
+  }
+
+  void ChangeCoordinates (unsigned int p)
+  {
+    if (p==1)
+    {
+      for (int i = 1; i < 16; i++ )
+      m_coordinates[i] = rand()%20;
+    }
+
+  }
+
+  float GetClarity() const
+  {
+    return m_clarity;
+  }
+
+  int GetCoordinates (unsigned int i) const
+  {
+     return m_coordinates[i];
+  }
+
 private:
   QOpenGLFunctions * m_functions = nullptr;
 
@@ -32,4 +58,6 @@ private:
   int m_texCoordAttr = 0;
   int m_modelViewProjectionUniform = 0;
   int m_textureUniform = 0;
+  int m_coordinates[16];
+  float m_clarity = 0;
 };

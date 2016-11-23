@@ -53,7 +53,6 @@ GLWidget::~GLWidget()
 {
   makeCurrent();
   delete m_texture;
-//  delete m_textureStar;
   delete m_texturedRect;
   doneCurrent();
 }
@@ -70,23 +69,23 @@ void GLWidget::initializeGL()
   m_time.start();
 }
 
-float clarity;
+/*float clarity;
 
-void Getclarity(unsigned int p)
+void GetClarity(unsigned int p)
 {
-  clarity = 0.5 - 0.5 * cos(2*3.14*p/500);
+  clarity = 0.5 - 0.5 * cos(M_PI * 0.004 * p);
 }
 
-int coo[16];
-void Getcoo (unsigned int p)
+int coordinates[16];
+void GetCoordinates (unsigned int p)
 {
   if (p==1)
   {
     for (int i = 1; i < 16; i++ )
-    coo[i] = rand()%20;
+    coordinates[i] = rand()%20;
   }
 
-}
+}*/
 
 void GLWidget::paintGL()
 {
@@ -106,8 +105,10 @@ void GLWidget::paintGL()
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  Getcoo(m_frames);
-  Getclarity(m_frames);
+  m_texturedRect->ChangeCoordinates(m_frames);
+  m_texturedRect->ChangeClarity(m_frames);
+  //GetCoordinates(m_frames);
+  //GetClarity(m_frames);
   Render();
 
   glDisable(GL_CULL_FACE);
@@ -157,7 +158,8 @@ void GLWidget::Render()
 {
   for (int j = 1; j <= 4; j++)
     for (int i =1; i <= 4; i++ )
-      m_texturedRect->Render(m_texture, QVector2D((i-1)*200 + coo[i*j]*10,(j-1)*200 + coo[i*j]*10), QSize(40, 40), m_screenSize, clarity);
+      m_texturedRect->Render(m_texture, QVector2D((i-1)*200 + m_texturedRect->GetCoordinates(i*j)*10,(j-1)*200 + m_texturedRect->GetCoordinates(i*j)*10),
+                             QSize(40, 40), m_screenSize, m_texturedRect->GetClarity());
 }
 
 
