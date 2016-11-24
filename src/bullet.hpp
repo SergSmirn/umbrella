@@ -1,7 +1,7 @@
 #pragma once
 #include "headerlist.hpp"
 
-class Bullet: public GameObject
+class Bullet : public GameObject
 {
 public:
   Bullet() = default;

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <QApplication>
 #include <QMainWindow>
 #include <QSurfaceFormat>
@@ -19,3 +20,15 @@ int main(int argc, char ** argv)
 
   return a.exec();
 }
+=======
+#include <iostream>
+#include "headerlist.hpp"
+
+using namespace std;
+
+int main()
+{
+   cout << "Hello World!" << endl;
+   return 0;
+}
+>>>>>>> master
