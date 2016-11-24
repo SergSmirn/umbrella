@@ -100,6 +100,13 @@ public:
     return *this;
   }
 
+  /*void PrintToFile(std::string const & message, std::string const & logLevel)
+    {
+      m_outputStream.open(m_fileName, std::ios_base::app);
+      m_outputStream << "[" << logLevel << "] : " << message << std::endl;
+      m_outputStream.close();
+    }*/
+
 private:
   friend class Singleton<Logger>;
 
@@ -108,8 +115,14 @@ private:
   static LogLevel m_Level;
 
   static bool m_Output;
+
+  static const char* const m_fileName;
+
+  //std::ofstream m_outputStream;
 };
 
 LogLevel Logger::m_Level = LogLevel::info;
 
 bool Logger::m_Output = false;
+
+const char* const Logger::m_fileName = "log.txt";
