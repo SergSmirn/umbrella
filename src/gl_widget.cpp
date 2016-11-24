@@ -87,7 +87,8 @@ void GLWidget::paintGL()
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  m_texturedRect->ChangeCoordinates(m_frames);
+  if (m_frames == 1)
+    m_texturedRect->ChangeCoordinates(m_frames);
   m_texturedRect->ChangeClarity(m_frames);
 
   Render();

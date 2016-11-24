@@ -26,12 +26,8 @@ public:
 
   void ChangeCoordinates (unsigned int p)
   {
-    if (p==1)
-    {
-      for (int i = 1; i < 16; i++ )
-      m_coordinates[i] = rand()%20;
-    }
-
+     for (int i = 1; i < 16; i++ )
+     m_coordinates[i] = rand()%20;
   }
 
   float GetClarity() const
