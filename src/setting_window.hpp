@@ -21,7 +21,7 @@ public:
   void ShowMessage()
   {
     QMessageBox message;
-    message.setText("Настройки сохранены!");
+    message.setText("Settings have been saved!");
     message.exec();
   }
 

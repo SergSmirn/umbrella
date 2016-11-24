@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <sstream>
+#include <fstream>
 #include "singleton.hpp"
 enum LogLevel
 {
@@ -100,12 +102,12 @@ public:
     return *this;
   }
 
-  /*void PrintToFile(std::string const & message, std::string const & logLevel)
+  void PrintToFile(std::string const & message, std::string const & logLevel)
     {
       m_outputStream.open(m_fileName, std::ios_base::app);
       m_outputStream << "[" << logLevel << "] : " << message << std::endl;
       m_outputStream.close();
-    }*/
+    }
 
 private:
   friend class Singleton<Logger>;
@@ -118,7 +120,7 @@ private:
 
   static const char* const m_fileName;
 
-  //std::ofstream m_outputStream;
+  std::ofstream m_outputStream;
 };
 
 LogLevel Logger::m_Level = LogLevel::info;

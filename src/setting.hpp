@@ -3,6 +3,7 @@
 #include <json/json.h>
 #include <json/writer.h>
 #include <json/value.h>
+#include <json/forwards.h>
 #include <fstream>
 #include <iostream>
 
@@ -10,6 +11,7 @@ enum class GameLevel : unsigned char {Easy, Normal, Hard};
 
 class Settings
 {
+
 public:
   Settings() = default;
   Settings(std::string const & name, GameLevel level)

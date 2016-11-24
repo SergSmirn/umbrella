@@ -7,7 +7,7 @@ SettingWindow::SettingWindow(QMainWindow * parent) : QMainWindow(parent)
 {
   m_centralWidget = new QWidget(this);
   setCentralWidget(m_centralWidget);
-  setWindowTitle("Setting");
+  setWindowTitle("Settings");
   setFixedSize(600, 500);
 
   m_sliderSound = new QSlider(Qt::Horizontal, this);
