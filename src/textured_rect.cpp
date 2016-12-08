@@ -1,5 +1,4 @@
 #include "textured_rect.hpp"
-
 #include <QPainter>
 #include <QPaintEngine>
 #include <math.h>

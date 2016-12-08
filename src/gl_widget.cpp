@@ -52,7 +52,8 @@ GLWidget::GLWidget(MainWindow * mw, QColor const & background)
 GLWidget::~GLWidget()
 {
   makeCurrent();
-  delete m_texture;
+  delete m_textureStar;
+  delete m_textureShip;
   delete m_texturedRect;
   doneCurrent();
 }
@@ -63,7 +64,8 @@ void GLWidget::initializeGL()
 
   m_texturedRect = new TexturedRect();
   m_texturedRect->Initialize(this);
-  m_texture = new QOpenGLTexture(QImage("data/star.png"));
+  m_textureStar = new QOpenGLTexture(QImage("data/star.png"));
+  m_textureShip = new QOpenGLTexture(QImage("data/ship.png"));
 
 
   m_time.start();
@@ -86,10 +88,6 @@ void GLWidget::paintGL()
   glEnable(GL_CULL_FACE);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-  if (m_frames == 1)
-    m_texturedRect->ChangeCoordinates(m_frames);
-  m_texturedRect->ChangeClarity(m_frames);
 
   Render();
 
@@ -136,14 +134,34 @@ void GLWidget::Update(float elapsedSeconds)
     m_position.setX(m_position.x() + kSpeed * elapsedSeconds);
 }
 
-void GLWidget::Render()
+void GLWidget::RenderStar()
 {
-  for (int j = 1; j <= 4; j++)
-    for (int i =1; i <= 4; i++ )
-      m_texturedRect->Render(m_texture, QVector2D((i-1)*200 + m_texturedRect->GetCoordinates(i*j)*10,(j-1)*200 + m_texturedRect->GetCoordinates(i*j)*10),
-                             QSize(40, 40), m_screenSize, m_texturedRect->GetClarity());
+  static bool flag = true;
+  static QVector2D coordinates[32];
+  static float clarity[32];
+  for (int i = 0; i < 31; i++)
+    {
+      clarity[i] = fabs(sin(M_PI * m_frames / 250 + M_PI * i/20)) ;
+      if (clarity[i] < 0.01 || flag)
+        {
+          coordinates[i].setX(rand() % 800);
+          coordinates[i].setY(rand() % 800);
+          flag = false;
+        }
+      m_texturedRect->Render(m_textureStar, coordinates[i], QSize(20, 20), m_screenSize, clarity[i]);
+    }
 }
 
+void GLWidget::RenderShip()
+{
+  m_texturedRect->Render(m_textureShip, QVector2D(100, 100), QSize(60, 60), m_screenSize, 1.0);
+}
+
+void GLWidget::Render()
+{
+  GLWidget::RenderStar();
+  GLWidget::RenderShip();
+}
 
 
 void GLWidget::mousePressEvent(QMouseEvent * e)

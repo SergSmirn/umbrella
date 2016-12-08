@@ -4,7 +4,7 @@
 #include <QOpenGLFunctions>
 #include <QTime>
 #include "textured_rect.hpp"
-
+#include <QVector2D>
 #include <array>
 
 class MainWindow;
@@ -26,6 +26,8 @@ protected:
   void initializeGL() override;
 
   void Update(float elapsedSeconds);
+  void RenderStar();
+  void RenderShip();
   void Render();
   void mousePressEvent(QMouseEvent * e) override;
   void mouseDoubleClickEvent(QMouseEvent * e) override;
@@ -45,9 +47,9 @@ private:
   QColor m_background;
   QSize m_screenSize;
 
-  QOpenGLTexture * m_texture = nullptr;
+  QOpenGLTexture * m_textureShip = nullptr;
   TexturedRect * m_texturedRect = nullptr;
-//  QOpenGLTexture * m_textureStar = nullptr;
+  QOpenGLTexture * m_textureStar = nullptr;
   QVector2D m_position = QVector2D(200, 200);
   std::array<bool, 4> m_directions = {{ false, false, false, false }};
 };
