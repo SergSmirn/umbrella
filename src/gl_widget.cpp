@@ -1,5 +1,5 @@
 #include "gl_widget.hpp"
-
+#include "space.hpp"
 #include <QPainter>
 #include <QPaintEngine>
 #include <QOpenGLShaderProgram>
@@ -41,12 +41,15 @@ bool IsRightButton(QMouseEvent const * const e)
 
 } // namespace
 
+std::shared_ptr<Space> m_space = nullptr;
+
 GLWidget::GLWidget(MainWindow * mw, QColor const & background)
   : m_mainWindow(mw)
   , m_background(background)
 {
   setMinimumSize(800, 800);
   setFocusPolicy(Qt::StrongFocus);
+  m_space = std::make_shared<Space>();
 }
 
 GLWidget::~GLWidget()
@@ -66,6 +69,9 @@ void GLWidget::initializeGL()
   m_texturedRect->Initialize(this);
   m_textureStar = new QOpenGLTexture(QImage("data/star.png"));
   m_textureShip = new QOpenGLTexture(QImage("data/ship.png"));
+  m_textureShipBullet = new QOpenGLTexture(QImage("data/shipbullet.png"));
+  m_textureGameOver = new QOpenGLTexture(QImage("data/gameover.png"));
+  m_space->SetShip(std::make_shared<Gun>(Point2D {400.0, 100.0}, Point2D {400.0, 400.0}, 100, 2, 2));
 
 
   m_time.start();
@@ -100,8 +106,16 @@ void GLWidget::paintGL()
     QString framesPerSecond;
     framesPerSecond.setNum(m_frames / (elapsed / 1000.0), 'f', 2);
     painter.setPen(Qt::white);
-    painter.drawText(20, 40, framesPerSecond + " fps");
+    painter.drawText(20, 60, framesPerSecond + " fps");
   }
+  QString hp;
+  hp.setNum(m_space->GetShip()->GetHealth());
+  painter.setPen(Qt::red);
+  painter.drawText(680, 40, "Your health: " + hp);
+  QString sc;
+  sc.setNum(m_score);
+  painter.setPen(Qt::yellow);
+  painter.drawText(20, 40, "Your score: " + sc);
   painter.end();
 
   if (!(m_frames % 500))
@@ -122,16 +136,30 @@ void GLWidget::resizeGL(int w, int h)
 
 void GLWidget::Update(float elapsedSeconds)
 {
-  float const kSpeed = 20.0f; // pixels per second.
+  float const kSpeed = 3.0f; // pixels per second.
+  static float lastShot = 0.0f;
+  if (m_shipShot && (fabs(elapsedSeconds - lastShot) > 0.5f))
+  {
+    m_space->AddShipBullet(std::make_shared<Bullet>(m_space->GetShip()->LeftBot() , 5));
+    lastShot = elapsedSeconds;
+  }
 
   if (m_directions[kUpDirection])
-    m_position.setY(m_position.y() + kSpeed * elapsedSeconds);
+  {
+    m_space->GetShip()->MoveY(kSpeed );
+  }
   if (m_directions[kDownDirection])
-    m_position.setY(m_position.y() - kSpeed * elapsedSeconds);
+  {
+    m_space->GetShip()->MoveY(-kSpeed );
+  }
   if (m_directions[kLeftDirection])
-    m_position.setX(m_position.x() - kSpeed * elapsedSeconds);
+  {
+    m_space->GetShip()->MoveX(-kSpeed );
+  }
   if (m_directions[kRightDirection])
-    m_position.setX(m_position.x() + kSpeed * elapsedSeconds);
+  {
+    m_space->GetShip()->MoveX(kSpeed );
+  }
 }
 
 void GLWidget::RenderStar()
@@ -154,13 +182,34 @@ void GLWidget::RenderStar()
 
 void GLWidget::RenderShip()
 {
-  m_texturedRect->Render(m_textureShip, QVector2D(100, 100), QSize(60, 60), m_screenSize, 1.0);
+  m_texturedRect->Render(m_textureShip, QVector2D(m_space->GetShip()->LeftBot().x(),
+                         m_space->GetShip()->LeftBot().y()), QSize(60, 60), m_screenSize, 1.0);
+}
+
+void GLWidget::RenderShipBullet()
+{
+  for (auto bullet : m_space->GetShipBulletList())
+  {
+    m_texturedRect->Render(m_textureShipBullet, QVector2D(bullet->LeftBot().x(),
+                    bullet->LeftBot().y() + 30), QSize (20, 20), m_screenSize, 1.0);
+    bullet->MoveY(2);
+  }
+}
+
+void GLWidget::RenderGameOver()
+{
+    m_texturedRect->Render(m_textureGameOver, QVector2D(400, 450), QSize(300, 300), m_screenSize, 1.0);
 }
 
 void GLWidget::Render()
 {
-  GLWidget::RenderStar();
-  GLWidget::RenderShip();
+  RenderStar();
+  if (m_space->GetShip()->GetHealth() != 0)
+  {
+    RenderShip();
+    RenderShipBullet();
+  }
+  else RenderGameOver();
 }
 
 
@@ -224,6 +273,8 @@ void GLWidget::wheelEvent(QWheelEvent * e)
 
 void GLWidget::keyPressEvent(QKeyEvent * e)
 {
+  if (e->key() == Qt::Key_Space)
+      m_shipShot = true;
   if (e->key() == Qt::Key_Up)
     m_directions[kUpDirection] = true;
   else if (e->key() == Qt::Key_Down)
@@ -236,6 +287,8 @@ void GLWidget::keyPressEvent(QKeyEvent * e)
 
 void GLWidget::keyReleaseEvent(QKeyEvent * e)
 {
+  if (e->key() == Qt::Key_Space)
+        m_shipShot = false;
   if (e->key() == Qt::Key_Up)
     m_directions[kUpDirection] = false;
   else if (e->key() == Qt::Key_Down)

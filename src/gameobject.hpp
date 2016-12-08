@@ -1,6 +1,5 @@
 #pragma once
 #include "headerlist.hpp"
-
 class GameObject
 {
 public:

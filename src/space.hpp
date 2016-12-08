@@ -1,5 +1,8 @@
 #pragma once
-#include "headerlist.hpp"
+#include "obstacle.hpp"
+#include "alien.hpp"
+#include "gameobject.hpp"
+#include <list>
 
 class Space : public GameObject
 {
@@ -11,25 +14,49 @@ public:
 
   ~Space() override {}
 
-  void AddGameObject(TGameObjectConstPtr gameObject)
+  void AddAlien(TAlienPtr alien)
   {
-    m_gameObjectList.push_back(gameObject);
+    m_alienList.push_back(alien);
   }
 
-  std::list<TGameObjectConstPtr> const & GetGameObject()
+  void AddShipBullet(TBulletPtr bullet)
   {
-    return m_gameObjectList;
+    m_shipBulletList.push_back(bullet);
   }
 
-  void ExitCheck()
+  void AddObstacle(TObstaclePtr obstacle)
   {
-    for (auto it = m_gameObjectList.begin(); it != m_gameObjectList.end(); )
-    {
-      if(!(m_box.Box2D::LeftBot() < (*it)->LeftBot() && (*it)->RightTop() < m_box.Box2D::RightTop())) m_gameObjectList.erase(it);
-      else ++it;
-    }
+    m_obstacleList.push_back(obstacle);
+  }
+
+  std::list<TAlienPtr> const & GetAlienList()
+  {
+    return m_alienList;
+  }
+
+  std::list<TBulletPtr> const & GetShipBulletList()
+  {
+    return m_shipBulletList;
+  }
+
+  std::list<TObstaclePtr> & GetObstaclesList()
+  {
+    return m_obstacleList;
+  }
+
+  TGunPtr & GetShip()
+  {
+    return m_ship;
+  }
+
+  void SetShip(TGunPtr ship)
+  {
+    m_ship = ship;
   }
 
 private:
-  std::list<TGameObjectConstPtr> m_gameObjectList;
+  std::list<TAlienPtr> m_alienList;
+  std::list<TObstaclePtr> m_obstacleList;
+  std::list<TBulletPtr> m_shipBulletList;
+  TGunPtr m_ship = nullptr;
 };

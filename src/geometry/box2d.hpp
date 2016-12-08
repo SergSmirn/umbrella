@@ -149,16 +149,24 @@ public:
   Box2D MoveX (float x)
   {
     Point2D distance(x,0);
-    m_plb+=distance;
     m_prt+=distance;
+    if ((m_plb+=distance).x() >= 800)
+      m_plb.x() = 800;
+    else if ((m_plb+=distance).x() <= 0)
+      m_plb.x() = 0;
+    else m_plb+=distance;
     return *this;
   }
 
   Box2D MoveY (float y)
   {
     Point2D distance(0,y);
-    m_plb+=distance;
     m_prt+=distance;
+    if ((m_plb+=distance).y() >= 800)
+      m_plb.y() = 800;
+    else if ((m_plb+=distance).y() <= 100)
+      m_plb.y() = 100;
+    else m_plb+=distance;
     return *this;
   }
 

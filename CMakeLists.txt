@@ -63,5 +63,7 @@ endmacro(copy_files)
 
 set(DATA_FILES_LIST  data/star.png
                      data/alien.png
-                     data/ship.png)
+                     data/ship.png
+                     data/shipbullet.png
+                     data/gameover.png)
 copy_files("${DATA_FILES_LIST}" ${CMAKE_CURRENT_BINARY_DIR})

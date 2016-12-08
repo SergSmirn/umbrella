@@ -22,12 +22,6 @@ public:
     return m_speed;
   }
 
-  Gun Clash(Obstacle const & obj)
-  {
-    if (this->Intersection(obj)) ReduceHealth(5);
-    return *this;
-  }
-
 private:
   unsigned m_speed = 0;
 };
@@ -41,3 +35,6 @@ std::ostream & operator << (std::ostream & os,
      << "; Speed: " << obj.GetSpeed() << "]";
   return os;
 }
+
+using TGunPtr = std::shared_ptr<Gun>;
+using TGunConstPtr = std::shared_ptr<Gun const>;

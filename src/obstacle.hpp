@@ -53,3 +53,6 @@ std::ostream & operator << (std::ostream & os,
      << "; Strength: " << obj.GetStrength() << "]";
   return os;
 }
+
+using TObstaclePtr = std::shared_ptr<Obstacle>;
+using TObstacleConstPtr = std::shared_ptr<Obstacle const>;
