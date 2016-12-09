@@ -69,3 +69,6 @@ std::ostream & operator << (std::ostream & os,
      << "; Type: " << obj.GetType() << "]";
   return os;
 }
+
+using TAlienPtr = std::shared_ptr<Alien>;
+using TAlienConstPtr = std::shared_ptr<Alien const>;

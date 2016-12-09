@@ -115,16 +115,8 @@ public:
   // Деление на число.
   Box2D operator / (float scale) const
   {
-    try
-    {
-      if (EqualWithEps(scale, 0)) throw std::invalid_argument ("Division by zero is not defined\n");
-      return { m_plb, m_prt / scale };
-    }
-    catch (std::exception const & ex)
-    {
-      std::cerr << ex.what();
-      return *this;
-    }
+    if (EqualWithEps(scale, 0)) throw std::invalid_argument ("Division by zero is not defined\n");
+    return { m_plb, m_prt / scale };
   }
 
   Box2D & operator += (Box2D const & obj)
@@ -149,32 +141,32 @@ public:
 
   Box2D & operator /= (float scale)
   {
-    try
-    {
-      if (EqualWithEps(scale, 0)) throw std::invalid_argument ("Division by zero is not defined\n");
-      m_prt /= scale;
-      return *this;
-    }
-    catch (std::exception const & ex)
-    {
-      std::cerr << ex.what();
-      return *this;
-    }
+    if (EqualWithEps(scale, 0)) throw std::invalid_argument ("Division by zero is not defined\n");
+    m_prt /= scale;
+    return *this;
   }
 
   Box2D MoveX (float x)
   {
     Point2D distance(x,0);
-    m_plb+=distance;
     m_prt+=distance;
+    if ((m_plb+=distance).x() >= 800)
+      m_plb.x() = 800;
+    else if ((m_plb+=distance).x() <= 0)
+      m_plb.x() = 0;
+    else m_plb+=distance;
     return *this;
   }
 
   Box2D MoveY (float y)
   {
     Point2D distance(0,y);
-    m_plb+=distance;
     m_prt+=distance;
+    if ((m_plb+=distance).y() >= 800)
+      m_plb.y() = 800;
+    else if ((m_plb+=distance).y() <= 100)
+      m_plb.y() = 100;
+    else m_plb+=distance;
     return *this;
   }
 
@@ -195,6 +187,11 @@ public:
 
   Point2D const & LeftBot() const { return m_plb;}
   Point2D const & RightTop() const { return m_prt;}
+  void SetCenter (Point2D pc, float size)
+  {
+    m_plb = pc - size/2;
+    m_prt = pc + size/2;
+  }
 
 protected:
   bool EqualWithEps(float v1, float v2) const

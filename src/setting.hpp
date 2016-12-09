@@ -28,7 +28,7 @@ public:
     root["game"]["GameSound"] = m_sound;
 
     std::ofstream settingsFile;
-    settingsFile.open("settings.json");
+    settingsFile.open("data/settings.json");
     if (settingsFile.is_open())
     {
       Json::StyledWriter styledWriter;

@@ -34,6 +34,16 @@ public:
     }
   }
 
+  bool const GetIni() const
+  {
+    return m_ini;
+  }
+
+  void SetIni(bool ini)
+  {
+    m_ini = ini;
+  }
+
   Obstacle ReduceStrength(unsigned damage)
   {
     if (m_strength > damage)
@@ -44,7 +54,10 @@ public:
 
 private:
   unsigned m_strength = 0;
+  bool m_ini = false;
 };
+
+using TObstacle = std::shared_ptr<Obstacle>;
 
 std::ostream & operator << (std::ostream & os,
                             Obstacle const & obj)

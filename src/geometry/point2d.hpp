@@ -92,6 +92,15 @@ public:
     return { m_x - obj.m_x, m_y - obj.m_y };
   }
 
+  Point2D operator - (float const & obj) const
+  {
+    return { m_x - obj, m_y - obj };
+  }
+
+  Point2D operator + (float const & obj) const
+  {
+    return { m_x + obj, m_y + obj };
+  }
   // Математическое отрицание.
   Point2D operator - () const
   {
@@ -107,16 +116,8 @@ public:
   // Деление на число.
   Point2D operator / (float scale) const
   {
-    try
-    {
-      if (EqualWithEps(scale, 0)) throw std::invalid_argument ("Division by zero is not defined\n");
-      return { m_x / scale, m_y / scale };
-    }
-    catch (std::exception const & ex)
-    {
-      std::cerr << ex.what();
-      return *this;
-    }
+    if (EqualWithEps(scale, 0)) throw std::invalid_argument ("Division by zero is not defined\n");
+    return { m_x / scale, m_y / scale };
   }
 
   Point2D & operator += (Point2D const & obj)
@@ -142,18 +143,10 @@ public:
 
   Point2D & operator /= (float scale)
   {
-    try
-    {
       if (EqualWithEps(scale, 0)) throw std::invalid_argument ("Division by zero is not defined\n");
       m_x /= scale;
       m_y /= scale;
       return *this;
-    }
-    catch (std::exception const & ex)
-    {
-      std::cerr << ex.what();
-      return *this;
-    }
   }
 
   // Переопределение оператора [].
@@ -172,6 +165,16 @@ public:
       return (hasher(p.x()) ^ (hasher(p.y()) << 1));
     }
   };
+
+  float const & GetX () const
+  {
+     return m_x;
+  }
+
+  float const & GetY () const
+  {
+     return m_y;
+  }
 
 private:
 

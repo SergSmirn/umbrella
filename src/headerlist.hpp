@@ -1,6 +1,8 @@
 #pragma once
 #include <list>
 #include <map>
+#include <vector>
+#include <cmath>
 #include "geometry/point2d.hpp"
 #include "geometry/box2d.hpp"
 #include "geometry/ray2d.hpp"

@@ -19,6 +19,11 @@ public:
     return m_box == obj.GetBox() && m_name == obj.GetName();
   }
 
+  void SetCoordinates (Point2D center, float size)
+  {
+      m_box.SetCenter(center, size);
+  }
+
   std::string const & GetName() const
   {
     return m_name;
@@ -49,12 +54,35 @@ public:
     return *this;
   }
 
+  int const GetCoordinateX() const
+  {
+    return m_coordinateX;
+  }
+
+  void SetCoordinateX(int coordinateX)
+  {
+    m_coordinateX = coordinateX;
+  }
+
+  int const GetCoordinateY() const
+  {
+    return m_coordinateY;
+  }
+
+  void SetCoordinateY(int coordinateY)
+  {
+    m_coordinateY = coordinateY;
+  }
+
   Point2D const & LeftBot() const { return m_box.LeftBot();}
   Point2D const & RightTop() const { return m_box.RightTop();}
 
 protected:
   Box2D m_box;
   std::string m_name;
+  int m_coordinateX;
+  int m_coordinateY;
+
 };
 
 using TGameObjectPtr = std::shared_ptr<GameObject>;

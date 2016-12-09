@@ -5,9 +5,8 @@ class Bullet : public GameObject
 {
 public:
   Bullet() = default;
-  
-  Bullet(Point2D const & lbp, Point2D const & rtp, unsigned damage)
-    : GameObject(lbp, rtp, "Bullet")
+  Bullet(Point2D const & lbp, unsigned damage)
+  : GameObject(lbp, Point2D {1000, 1000}, "Bullet")
   {
     m_damage = damage;
   }

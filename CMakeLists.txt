@@ -45,7 +45,7 @@ aux_source_directory(${TESTS_SOURCE_ROOT} TEST_SRC_FILES)
 set(TEST_SRC_FILES ${SRC_LIST} ${TEST_SRC_FILES})
 list(REMOVE_ITEM TEST_SRC_FILES src/main.cpp)
 qt5_wrap_cpp(QT_WRAPPED_TEST_SRC ${TEST_SRC_FILES})
-add_executable(${PROJECT_TEST_NAME} ${TEST_SRC_FILES} ${QT_WRAPPED_TEST_SRC})
+add_executable(${PROJECT_TEST_NAME} ${TEST_SRC_FILES} ${QT_WRAPPED_TEST_SRC} ${JSONCPP_SRC})
 # Link gtest and gtest_main libraries.
 target_link_libraries(${PROJECT_TEST_NAME} gtest gtest_main)
 qt5_use_modules(${PROJECT_TEST_NAME} Widgets OpenGL)
@@ -61,5 +61,14 @@ macro(copy_files GLOBPAT DESTINATION)
   endforeach(FILENAME)
 endmacro(copy_files)
 
-set(DATA_FILES_LIST data/star.png)
+set(DATA_FILES_LIST  data/star.png
+                     data/alien.png
+                     data/ship.png
+                     data/aestroid_dark.png
+                     data/Alien1.png
+                     data/Alien2.png
+                     data/Alien3.png
+                     data/ship.png
+                     data/shipbullet.png
+                     data/gameover.png)
 copy_files("${DATA_FILES_LIST}" ${CMAKE_CURRENT_BINARY_DIR})
